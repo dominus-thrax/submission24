@@ -37,10 +37,10 @@ import {
       styles: {
         global: (props) => ({
           body: {
-            bg: mode("#f8f9fb", "#222")(props),
+            bg: mode("#FFFFFF", "#FFFFFF")(props),
           },
           "*::placeholder": {
-            color: mode("gray.400", "whiteAlpha.400")(props),
+            color: mode("#FFFFFF", "#FFFFFF")(props),
           },
         }),
       },
@@ -51,6 +51,6 @@ import {
         Select,
       },
     },
-    withDefaultColorScheme({ colorScheme: "blue" })
+    withDefaultColorScheme({ colorScheme: "green" })
   );
   

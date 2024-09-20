@@ -19,7 +19,7 @@ const ContentLoader = () => {
         justifyContent={"center"}
         w={"100vw"}
         h={"100vh"}
-        bg={useColorModeValue("#f8f9fb", "secondaries.900")}
+        bg={useColorModeValue("#f8f9fb", "green.200")}
     >
         <Lottie
           options={defaultOptions}

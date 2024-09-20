@@ -15,12 +15,13 @@ const FileInput = ({ label, name, accept, ...otherProps }) => {
     <Box
     >
       <FormControl id={name}>
-        <FormLabel fontWeight={"semibold"} fontSize={"20px"}>{label}</FormLabel>
+        <FormLabel fontWeight={"semibold"} fontSize={"20px"} color={"white"}>{label}</FormLabel>
         <Input
           type={'file'}
           name={name}
-          h={"100px"}
-          py={"30px"}
+          h={"50px"}
+          py={"10px"}
+          color={"white"}
           onChange={changeHandler}
           accept={accept}
           {...otherProps}

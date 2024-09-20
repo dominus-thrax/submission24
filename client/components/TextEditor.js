@@ -20,6 +20,7 @@ const modules = {
         ],
         ['link'],
         ['clean'],
+        
     ],
     clipboard: {
         // toggle to add extra line breaks when pasting HTML:
@@ -54,7 +55,7 @@ export default function TextEditor({ label, name, placeholder, ...otherProps }) 
         })
     }
     return (
-        <FormControl id={name}>
+        <FormControl id={name} >
             <FormLabel fontWeight={"semibold"}>{label}</FormLabel>
             <QuillNoSSRWrapper
                 modules={modules}
@@ -62,8 +63,10 @@ export default function TextEditor({ label, name, placeholder, ...otherProps }) 
                 name={name}
                 placeholder={placeholder}
                 theme="snow"
+                className='text-white'
                 onChange={handleChange}
                 {...otherProps}
+                
             />
             {errors[name] && touched[name] && <p color="red">{errors[name]}</p>}
         </FormControl>

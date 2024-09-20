@@ -17,11 +17,13 @@ const ButtonWithModal = ({handleSubmit}) => {
   return (
     <>
       <Button
-        bg={"blue.400"}
+        bg={"#203449"}
         color={"white"}
         _hover={{
-          bg: "blue.500",
+          bg: "#88B788",
         }}
+        width={"100px"}
+        justifyItems={"center"}
         type="button"
         onClick={onOpen}
       >
@@ -38,10 +40,10 @@ const ButtonWithModal = ({handleSubmit}) => {
 
           <ModalFooter>
             <Button
-              bg={"blue.400"}
+              bg={"#88B788"}
               color={"white"}
               _hover={{
-                bg: "blue.500",
+                bg: "#88B788",
               }}
               type="submit"
               onClick={handleSubmit}

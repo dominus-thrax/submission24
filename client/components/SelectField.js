@@ -12,6 +12,8 @@ const SelectField = ({ name, placeholder, label, options, ...otherProps }) => {
                 name={name}
                 w={'100%'}
                 {...otherProps}
+                color={"white"}
+                
             >
                 {
                     options.map((item) => (

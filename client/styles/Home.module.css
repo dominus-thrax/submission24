@@ -114,3 +114,7 @@
     flex-direction: column;
   }
 }
+
+.quill.text-white{
+  color: #0070f3;
+}

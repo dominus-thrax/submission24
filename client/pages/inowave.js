@@ -2,39 +2,39 @@ import { Box, Button, chakra, Flex, Grid, GridItem, Link, SimpleGrid, Stack, Tab
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import privateUserRoute from '../routers/privateUserRoute';
-import * as Yup from "yup";
 import { Formik } from "formik";
-import NextLink from 'next/link';
 import { toast } from 'react-toastify';
+import FileInput from '../components/FileInput';
+import NextLink from 'next/link';
+import { uploadFile } from '../action/uploadFile';
 import ButtonWithModal from '../components/ButtonWithModal';
 import { getEntries, submitEntries } from '../action/entries';
 import ContentLoader from '../components/ContentLoader';
-import FormField from '../components/FormField';
-import TextEditor from '../components/TextEditor';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 
-const options = [
-  { value: "1. Great things happen out of one’s comfort zone but what if a person is happy and satisfied in his comfort zone?", label: "1. Great things happen out of one’s comfort zone but what if a person is happy and satisfied in his comfort zone?" },
-  { value: "2. Are good morals innate or a result of fear?", label: "2. Are good morals innate or a result of fear?" },
-  { value: "3. Is honest disagreement a good sign of progress?", label: "3. Is honest disagreement a good sign of progress?" },
-  { value: "4. Which is more important: creativity or efficiency?", label: "4. Which is more important: creativity or efficiency?" },
-
-]
-
-const validateSchema = Yup.object({
-  topic: Yup.string().trim().required("Required"),
-  submission: Yup.string().trim().required("Required")
-})
-
-const Insight = () => {
-  const textColor = useColorModeValue("gray.700", "gray.50")
+const Inowave = () => {
+  const textColor = useColorModeValue("gray.700", "gray.50");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
-    console.log(values)
+    if (!values?.file?.name) {
+      toast.error('Please Select a file')
+      return;
+    }
+    console.log(values.file.size)
+    if (values.file.size > 5000000) {
+      toast.error('File Size Exceeded');
+      return;
+    }
     try {
       setLoading(true);
-      const entryData = await submitEntries(values, 'insight');
+      const data = await uploadFile(values.file)
+      if (data?.error) {
+        toast.error('Someting Went Wrong')
+        setLoading(false);
+        return
+      }
+      const entryData = await submitEntries(data, 'webapp');
       if (entryData?.error) {
         toast.error(entryData?.error);
         setLoading(false);
@@ -51,7 +51,7 @@ const Insight = () => {
   useEffect(() => {
     const fetchSubmission = async () => {
       try {
-        const entryData = await getEntries('insight');
+        const entryData = await getEntries('webapp');
         if (entryData?.error) {
           console.log(entryData?.error);
         }
@@ -86,7 +86,7 @@ const Insight = () => {
             display={'flex'}
             alignItems={'center'}
           >
-            <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
+            <ChevronLeftIcon w={6} h={6}/> <span>Back to all events</span>
           </chakra.h3>
         </NextLink>
         <chakra.h1
@@ -95,13 +95,14 @@ const Insight = () => {
           fontWeight={"bold"}
           color={textColor}
         >
-          Insight
+          Inowave
         </chakra.h1>
         <SimpleGrid
           columns={{ base: 1, md: 2 }}
           gap={10}
         >
-          <GridItem>
+          <GridItem
+          >
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList>
                 <Tab>
@@ -112,34 +113,45 @@ const Insight = () => {
               <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='2xl'>
+                    <Text fontSize='3xl'>
                       Topics
                     </Text>
-                    {
-                      options.map((item) => (
-                        <Text fontSize='lg' key={item.value}>
-                          {item.label}
-                        </Text>
-                      ))
-                    }
+                    <Text fontSize='xl'>
+                      - Application for an NGO to display its work + accept donations
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Travelogue Application
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Application for Health and Fitness
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Website/App for selling sports goods
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Smart hiring platform for recruiters
+                    </Text>
                   </Stack>
                 </TabPanel>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='2xl'>
+                    <Text fontSize='3xl'>
                       Instructions
                     </Text>
-                    <Text fontSize='lg'>
-                      Round 1: Passage/poem writing: Four topics would be given, out of which participants have to choose one and write a passage, story, poem, or any other suitable form of creative writing.
+                    <Text fontSize='xl'>
+                      1. Topics are out, the idea submission deadline is 18th April 2021 (11:59 pm)
                     </Text>
-                    <Text fontSize='lg'>
-                      Round 2: Third&lsquo;s POV: A short story would be given from a person&lsquo;s point of view and the participants will have to write the same story from a third person&lsquo;s point of view.
+                    <Text fontSize='xl'>
+                      2. Participants will have to choose only a topic (listed above in &lsquo;Rounds&lsquo;) and make a presentation on their idea.
                     </Text>
-                    <Text fontSize='lg'>
-                      1. All rounds are elimination rounds and selected participants would be informed by our team.
+                    <Text fontSize='xl'>
+                      3. Include a maximum of 6 slides in the PPT.
                     </Text>
-                    <Text fontSize='lg'>
-                      2. Plagiarized entries will be disqualified.
+                    <Text fontSize='xl'>
+                      4. Shortlisted participants from round 1 will enter round 2, where you will have to make a website or an app based on the idea you submitted.
+                    </Text>
+                    <Text fontSize='xl'>
+                      5. Participants should rename their entry as FirstName_LastName.extension
                     </Text>
                   </Stack>
                 </TabPanel>
@@ -151,46 +163,46 @@ const Insight = () => {
               (
                 <GridItem>
                   <Flex
-                    minH={"200px"}
-                    border={'2px solid green.300'}
+                    minH={"100px"}
                     alignItems={"center"}
                     justifyContent={"center"}
                     flexDirection={'column'}
                     gap={5}
                   >
                     <Text fontSize={'2xl'} textAlign={"center"}>You have already submitted your entry</Text>
+                    <Link
+                      href={submission.submission}
+                      bg={"blue.400"}
+                      px={4}
+                      py={1}
+                      color={"white"}
+                      _hover={{
+                        bg: "blue.500",
+                      }}
+                      borderRadius={'md'}
+                    >
+                      Downlooad
+                    </Link>
                   </Flex>
                 </GridItem>
               ) : (
                 <GridItem>
                   <Formik
-                    initialValues={{ topic: "", submission: "" }}
+                    initialValues={{ file: {} }}
                     onSubmit={handleSubmit}
-                    validationSchema={validateSchema}
                   >
                     {({ handleBlur, handleChange, values, handleSubmit }) => (
                       <form onSubmit={handleSubmit}>
                         <Stack
                           spacing={10}
+                          
                         >
-                          <FormField
-                            label="Topic ( Please copy & paste topic from list of adjacent topic )"
-                            type='text'
-                            name="topic"
-                            value={values.topic}
-                            onChange={handleChange}
+                          <FileInput
+                            accept={'.ppt,.pptx'}
+                            label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
+                            name='file'
                             onBlur={handleBlur}
-                            placeholder="Topic"
-                            bg={"rgba(165, 151, 39, 0.7)"}
-            
-                          />
-                          <TextEditor
-                            label="Description"
-                            name="submission"
-                            value={values.submission}
-                            placeholder="Description"
-                           
-                          // onBlur={handleBlur}
+                           bg={"rgba(165, 151, 39, 0.7)"}
                           />
                           <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                         </Stack>
@@ -208,4 +220,4 @@ const Insight = () => {
   )
 }
 
-export default privateUserRoute(Insight)
+export default privateUserRoute(Inowave)

@@ -6,7 +6,7 @@ export const getRegisteredEvents = async (dispatchEvents) => {
   if (submission.type === "user") {
     const options = {
       method: "GET",
-      url: `${apiConfig.url}/user_events`,
+      url: `${apiConfig.url}/user/user_events`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${submission.token}`,
@@ -14,10 +14,11 @@ export const getRegisteredEvents = async (dispatchEvents) => {
     };
     try {
       const res = await axios(options);
-      console.log("line number 17 in get events", res.data.events);
+      console.log("res",res);
+      console.log("line number 17 in get events", res.data);
       dispatchEvents({
         type: "SET_EVENTS",
-        events: res.data.events,
+        events: res.data,
       });
       return res.data;
     } catch (e) {

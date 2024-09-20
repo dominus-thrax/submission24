@@ -104,7 +104,7 @@ const Dataquest = () => {
                         fontWeight={"bold"}
                         fontSize={20}
                         textTransform={"uppercase"}
-                        color={"purple.400"}
+                        color={"#5FAB63"}
                         cursor="pointer"
                         display={'flex'}
                         alignItems={'center'}
@@ -125,7 +125,7 @@ const Dataquest = () => {
                             fontWeight={"bold"}
                             fontSize={20}
                             textTransform={"uppercase"}
-                            color={"purple.400"}
+                            color={"#5FAB63"}
                             cursor="pointer"
                         >
                             <span>View Leaderboard</span>
@@ -145,7 +145,7 @@ const Dataquest = () => {
                                 <Tab>Rules</Tab>
                                 <Tab>My Submissions</Tab>
                             </TabList>
-                            <TabPanels>
+                            <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                                 <TabPanel>
                                     <Stack spacing={3}>
                                         <Text fontSize='2xl'>
@@ -251,12 +251,14 @@ const Dataquest = () => {
                                             label='Upload Your CSV ( .csv upto 5mb )'
                                             name='file_csv'
                                             onBlur={handleBlur}
+                                            bg={"rgba(165, 151, 39, 0.7)"}
                                         />
                                         <FileInput
                                             accept={'.py,.ipynb'}
                                             label='Upload Your python or notebook file ( .py, .ipynb upto 5mb )'
                                             name='file_python'
                                             onBlur={handleBlur}
+                                            bg={"rgba(165, 151, 39, 0.7)"}
                                         />
                                         <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                                     </Stack>

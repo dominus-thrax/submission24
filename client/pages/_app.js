@@ -45,6 +45,10 @@ function MyApp({ Component, pageProps }) {
     >
       <ChakraProvider theme={customTheme}>
         <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+          rel="stylesheet"
+        />
           <title>Pulzion 23 | Submission</title>
         </Head>
         <ToastContainer />

@@ -30,6 +30,7 @@ function Loginpage() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (values) => {
+    console.log(values);
     try {
       setLoading(true);
       const data = await userLogin(values, 'user', dispatchUser, dispatchEvents);
@@ -53,24 +54,32 @@ function Loginpage() {
           md: '48px',
           lg: '64px'
         }}
-        py={"12vh"}
+        py={"1px"}
         w={"100vw"}
       >
         <Flex
           align={"center"}
           justify={"center"}
+          opacity={0.8}
+          
           rounded={useColorModeValue("", "lg")}
           bg={useColorModeValue("white.100", "secondaries.800")}
         >
-          <Stack spacing={"8"} py={12} px={4}>
+          <Stack spacing={"1"} py={12} px={4}
+            bgImage="/signup.png"  // Replace with your image URL
+            bgPosition="center"
+            bgRepeat="no-repeat"
+            bgSize="cover"
+            
+            >
             <Stack align={"center"}>
-              <Heading fontSize={"4xl"}>Sign in to your account </Heading>
+              <Heading fontFamily={'vt323, monospace'} fontSize={"4xl"} color={"white"}>Sign in to your account </Heading>
             </Stack>
             <Box
               rounded={"lg"}
               boxShadow={"md"}
               px={"5"}
-              py={"8"}
+              py={"4"}         
             >
               <Formik
                 initialValues={{ email: "", password: "" }}
@@ -79,7 +88,7 @@ function Loginpage() {
               >
                 {({ handleBlur, handleChange, values, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
-                    <Stack spacing={"5"}>
+                    <Stack spacing={"3"}>
                       <FormField
                         type="email"
                         placeholder="Email"
@@ -99,13 +108,14 @@ function Loginpage() {
                         placeholder="Password"
                       />
                       <Button
-                        bg={"blue.400"}
+                        bg={"#203449"}
                         color={"white"}
                         _hover={{
-                          bg: "blue.500",
+                          bg: "green.500",
                         }}
                         type="submit"
                         isLoading={loading}
+                        fontSize={30}
                       >
                         Sign in
                       </Button>

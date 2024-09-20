@@ -17,6 +17,7 @@ const Webapp = () => {
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
+    console.log(values);
     if (!values?.file?.name) {
       toast.error('Please Select a file')
       return;
@@ -81,7 +82,7 @@ const Webapp = () => {
             fontWeight={"bold"}
             fontSize={20}
             textTransform={"uppercase"}
-            color={"purple.400"}
+            color={"#5FAB63"}
             cursor="pointer"
             display={'flex'}
             alignItems={'center'}
@@ -101,7 +102,8 @@ const Webapp = () => {
           columns={{ base: 1, md: 2 }}
           gap={10}
         >
-          <GridItem>
+          <GridItem
+          >
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList>
                 <Tab>
@@ -109,47 +111,47 @@ const Webapp = () => {
                 </Tab>
                 <Tab>Instructions</Tab>
               </TabList>
-              <TabPanels>
+              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='2xl'>
+                    <Text fontSize='3xl'>
                       Topics
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       - Application for an NGO to display its work + accept donations
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       - Travelogue Application
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       - Application for Health and Fitness
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       - Website/App for selling sports goods
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       - Smart hiring platform for recruiters
                     </Text>
                   </Stack>
                 </TabPanel>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='2xl'>
+                    <Text fontSize='3xl'>
                       Instructions
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       1. Topics are out, the idea submission deadline is 18th April 2021 (11:59 pm)
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       2. Participants will have to choose only a topic (listed above in &lsquo;Rounds&lsquo;) and make a presentation on their idea.
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       3. Include a maximum of 6 slides in the PPT.
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       4. Shortlisted participants from round 1 will enter round 2, where you will have to make a website or an app based on the idea you submitted.
                     </Text>
-                    <Text fontSize='lg'>
+                    <Text fontSize='xl'>
                       5. Participants should rename their entry as FirstName_LastName.extension
                     </Text>
                   </Stack>
@@ -162,8 +164,7 @@ const Webapp = () => {
               (
                 <GridItem>
                   <Flex
-                    minH={"200px"}
-                    border={'2px solid primaries.100'}
+                    minH={"100px"}
                     alignItems={"center"}
                     justifyContent={"center"}
                     flexDirection={'column'}
@@ -174,7 +175,7 @@ const Webapp = () => {
                       href={submission.submission}
                       bg={"blue.400"}
                       px={4}
-                      py={2}
+                      py={1}
                       color={"white"}
                       _hover={{
                         bg: "blue.500",
@@ -195,12 +196,14 @@ const Webapp = () => {
                       <form onSubmit={handleSubmit}>
                         <Stack
                           spacing={10}
+                          
                         >
                           <FileInput
                             accept={'.ppt,.pptx'}
                             label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
                             name='file'
                             onBlur={handleBlur}
+                           bg={"rgba(165, 151, 39, 0.7)"}
                           />
                           <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                         </Stack>

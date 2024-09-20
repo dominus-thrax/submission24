@@ -32,28 +32,33 @@ const Header = () => {
   };
   return (
     <Flex
+    alignItems={"center"}
+    justifyContent={"center"} // Center logo horizontally
+    py={"2px"}
+    px={{
+      base: "32px",
+      md: "48px",
+      lg: "64px",
+    }}
+    position="relative" // Set relative positioning on the container
+    gap={"4px"}
+  >
+    <Link href="/" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+      <Image src="/logo.svg" width={500} height={200} alt={"logo"} />
+    </Link>
+    <Flex
+      position="absolute" // Position the logout button container absolutely
+      right="4px"
+      top={40} // Align it to the right end
       alignItems={"center"}
-      justifyContent={"space-between"}
-      py={"15px"}
-      px={{
-        base: "16px",
-        md: "48px",
-        lg: "64px",
-      }}
-      gap={"10px"}
+      gap={"15px"}
+      pr={4} // Add some padding to the right if needed
     >
-      <Link href="/">
-        {colorMode === "light" ? (
-          <Image src="/logo-light.png" width={300} height={150} alt={"logo"} />
-        ) : (
-          <Image src="/logo-light.png" width={300} height={150} alt={"logo"} />
-        )}
-      </Link>
-      <Flex alignItems={"center"} gap={"15px"}>
-        <SwitchThemeButton />
-        {user?.id && <Button onClick={handleLogout}>Log Out</Button>}
-      </Flex>
+      {user?.id && <Button onClick={handleLogout}>Log Out</Button>}
     </Flex>
+  </Flex>
+  
+  
   );
 };
 

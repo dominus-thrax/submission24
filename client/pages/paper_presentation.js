@@ -23,6 +23,7 @@ const PaperPresentation = () => {
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
+    console.log(values);
     if (!values?.file?.name) {
       toast.error('Please Select a file')
       return;
@@ -107,7 +108,7 @@ const PaperPresentation = () => {
             fontWeight={"bold"}
             fontSize={20}
             textTransform={"uppercase"}
-            color={"purple.400"}
+            color={"#5FAB63"}
             cursor="pointer"
             display={'flex'}
             alignItems={'center'}
@@ -136,7 +137,7 @@ const PaperPresentation = () => {
                 <Tab>Paper Submission</Tab>
                 <Tab>Round 2</Tab>
               </TabList>
-              <TabPanels>
+              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
                   <Stack spacing={3}>
                     <Text fontSize='2xl'>
@@ -253,6 +254,7 @@ const PaperPresentation = () => {
                             label='Upload Your Abstract ( .doc, .docx or .pdf upto 2 mb )'
                             name='file'
                             onBlur={handleBlur}
+                            bg={"rgba(165, 151, 39, 0.7)"}
                           />
                           {
                             values.type === 'Paper Presentation Track' && <FileInput
