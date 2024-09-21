@@ -1,12 +1,14 @@
 import AWS from "./awsClient";
 import { v4 as uuidv4 } from "uuid";
 
+// bucket_name=submission-pulzion-24
+// region=ap-south-1
 export const uploadFile = async (file) => {
   const id = uuidv4();
 
   var upload = new AWS.S3.ManagedUpload({
     params: {
-      Bucket: "pulzion-submission",
+      Bucket: "submission-pulzion-24",
       Key: `submission/${id}_${file.name}`,
       Body: file,
     },
@@ -14,6 +16,7 @@ export const uploadFile = async (file) => {
   });
   try {
     const res = await upload.promise();
+    console.log("upload: ",res);
     if (res?.Location) {
       return { submission: res.Location };
     }

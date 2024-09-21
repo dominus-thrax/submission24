@@ -87,7 +87,7 @@ export const logout = async (
   const submission = JSON.parse(localStorage.getItem("submission"));
   if (submission) {
     const options = {
-      method: "POST",
+      method: "DELETE",
       url: `${apiConfig.url}/${submission.type}/signout`,
       headers: {
         "Content-Type": "application/json",
@@ -96,6 +96,7 @@ export const logout = async (
     };
     try {
       const res = await axios(options);
+      console.log("logout res:",res);
       localStorage.removeItem("submission");
       dispatchUser({
         type: "RESET_USER",

@@ -12,6 +12,8 @@ import ContentLoader from '../components/ContentLoader';
 import FormField from '../components/FormField';
 import TextEditor from '../components/TextEditor';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
+import FileInput from '../components/FileInput';
+import { uploadFile } from '../action/uploadFile';
 
 const options = [
   { value: "1. Great things happen out of one’s comfort zone but what if a person is happy and satisfied in his comfort zone?", label: "1. Great things happen out of one’s comfort zone but what if a person is happy and satisfied in his comfort zone?" },
@@ -21,10 +23,6 @@ const options = [
 
 ]
 
-const validateSchema = Yup.object({
-  topic: Yup.string().trim().required("Required"),
-  submission: Yup.string().trim().required("Required")
-})
 
 const Insight = () => {
   const textColor = useColorModeValue("gray.700", "gray.50")
@@ -32,15 +30,36 @@ const Insight = () => {
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
     console.log(values)
+    if (!values?.submission?.name) {
+      toast.error('Please Select a file')
+      return;
+    }
+    console.log(values.submission.size)
+    if (values.submission.size > 5000000) {
+      toast.error('File Size Exceeded');
+      return;
+    }
     try {
       setLoading(true);
-      const entryData = await submitEntries(values, 'insight');
+      const data = await uploadFile(values.submission)
+      console.log("insight:",data);
+      if (data?.error) {
+        toast.error('Someting Went Wrong')
+        setLoading(false);
+        return
+      }
+      const entryData = await submitEntries({
+        submission:data.submission,
+        topic:values.topic
+      }, 'insight');
       if (entryData?.error) {
         toast.error(entryData?.error);
         setLoading(false);
         return;
       }
-      setSubmission(entryData.submission);
+      console.log("entrydata insight:",entryData.submission)
+      setSubmission(entryData?.submission);
+      
       toast.success('Entry Submitted Successfully');
     } catch (e) {
       console.log(e)
@@ -164,9 +183,9 @@ const Insight = () => {
               ) : (
                 <GridItem>
                   <Formik
-                    initialValues={{ topic: "", submission: "" }}
+                    initialValues={{ topic: "", submission: {} }}
                     onSubmit={handleSubmit}
-                    validationSchema={validateSchema}
+                 
                   >
                     {({ handleBlur, handleChange, values, handleSubmit }) => (
                       <form onSubmit={handleSubmit}>
@@ -184,14 +203,14 @@ const Insight = () => {
                             bg={"rgba(165, 151, 39, 0.7)"}
             
                           />
-                          <TextEditor
-                            label="Description"
-                            name="submission"
-                            value={values.submission}
-                            placeholder="Description"
-                           
-                          // onBlur={handleBlur}
+                         <FileInput
+                            accept={'.doc,.docx,.pdf'}
+                            label='Upload Your Abstract ( .doc, .docx or .pdf upto 2 mb )'
+                            name='submission'
+                            onBlur={handleBlur}
+                            bg={"rgba(165, 151, 39, 0.7)"}
                           />
+                         
                           <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                         </Stack>
                       </form>

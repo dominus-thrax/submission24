@@ -64,13 +64,10 @@ const EventCard = ({ event, page }) => {
             onClick={() =>
             {
                
-              if(page!=="/dataquest"){
+              
                 router.push(page)
-              }
-              else{
-                 router.push("/dashboard")
-                 toast.error("Submission for this event is not available")
-              }
+              
+             
               
             }
           }

@@ -44,7 +44,7 @@ const Dashboard = () => {
           </chakra.h1>
         </Box>
         {contEvents && contEvents.length === 0 && (
-          <Text fontSize={{ base: "2xl", md: "5xl" }} mt={{ base: 10, md: 20 }}>
+          <Text fontSize={{ base: "2xl", md: "5xl" }} color={"white"}>
             {" "}
             You haven&lsquo;t registered for any event
           </Text>

@@ -58,16 +58,18 @@ const PaperPresentation = () => {
         }
       }
       const entryData = await submitEntries({
-        paper_type: values.type,
+        type: values.type,
         submission_paper: paper_data?.submission,
-        submission_abstract: data.submission
+        abstract: data.submission
       }, 'paper');
+    
       if (entryData?.error) {
         toast.error(entryData?.error);
         setLoading(false);
         return;
       }
       setSubmission(entryData.submission);
+     
       toast.success('Entry Submitted Successfully');
     } catch (e) {
       console.log(e)

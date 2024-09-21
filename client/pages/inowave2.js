@@ -24,7 +24,7 @@ const Inowave2 = () => {
     console.log(values);
     try {
       setLoading(true);
-      const entryData = await submitEntries(values, 'insight');
+      const entryData = await submitEntries(values, 'inowave2');
       if (entryData?.error) {
         toast.error(entryData?.error);
         setLoading(false);

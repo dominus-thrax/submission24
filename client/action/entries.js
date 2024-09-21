@@ -6,7 +6,7 @@ export const submitEntries = async (values, type) => {
     if (submission) {
         const options = {
             method: "POST",
-            url: `${apiConfig.url}/${type}`,
+            url: `${apiConfig.url}/${type}/post`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${submission.token}`,

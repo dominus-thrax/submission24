@@ -11,47 +11,95 @@ import ButtonWithModal from '../components/ButtonWithModal';
 import { getEntries, submitEntries } from '../action/entries';
 import ContentLoader from '../components/ContentLoader';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
+import SelectField from '../components/SelectField';
+import FormField from '../components/FormField';
 
+const options = [
+  { value: "ppt", label: "ppt" },
+  { value: "link", label: "link" },
+]
 const Inowave = () => {
   const textColor = useColorModeValue("gray.700", "gray.50");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
-    if (!values?.file?.name) {
-      toast.error('Please Select a file')
-      return;
-    }
-    console.log(values.file.size)
-    if (values.file.size > 5000000) {
-      toast.error('File Size Exceeded');
-      return;
-    }
-    try {
-      setLoading(true);
-      const data = await uploadFile(values.file)
-      if (data?.error) {
-        toast.error('Someting Went Wrong')
-        setLoading(false);
-        return
-      }
-      const entryData = await submitEntries(data, 'webapp');
-      if (entryData?.error) {
-        toast.error(entryData?.error);
-        setLoading(false);
+   
+    if(values?.type==="")
+      {
+        toast.error('Please Select a option')
         return;
       }
-      setSubmission(entryData.submission);
-      toast.success('Entry Submitted Successfully');
-    } catch (e) {
-      console.log(e)
-      toast.error('Someting Went Wrong')
+    if(values.type==="ppt")
+    {
+        if (!values?.ppt?.name) {
+          toast.error('Please Select a file')
+          return;
+        }
+        if (values?.ppt?.size > 5000000) {
+          toast.error('File Size Exceeded');
+          return;
+        }
+
+        try {
+          setLoading(true);
+          const data = await uploadFile(values.ppt)
+          console.log(data);
+          if (data?.error) {
+            toast.error('Someting Went Wrong')
+            setLoading(false);
+            return
+          }
+          const entryData = await submitEntries({
+            type:"ppt",
+            submission:data.submission
+          }, 'innowave');
+    
+          if (entryData?.error) {
+            toast.error(entryData?.error);
+            setLoading(false);
+            return;
+          }
+          setSubmission(entryData.submission);
+          toast.success('Entry Submitted Successfully');
+        } catch (e) {
+          console.log(e)
+          toast.error('Someting Went Wrong')
+        }
+        setLoading(false);
+      }
+    else if(values.type==="link")
+    {
+      if(values?.url==='')
+        {
+          toast.error('Please enter link')
+          return;
+        }
+        try {
+          const entryData = await submitEntries({
+            type:values.type,
+            submission:values.url
+          }, 'innowave');
+    
+          if (entryData?.error) {
+            toast.error(entryData?.error);
+            setLoading(false);
+            return;
+          }
+          setSubmission(entryData.submission);
+          toast.success('Entry Submitted Successfully');
+        } catch (e) {
+          console.log(e)
+          toast.error('Someting Went Wrong')
+        }
+        setLoading(false);
+      }
     }
-    setLoading(false);
-  }
+   
+    
   useEffect(() => {
     const fetchSubmission = async () => {
       try {
-        const entryData = await getEntries('webapp');
+        const entryData = await getEntries('innowave');
         if (entryData?.error) {
           console.log(entryData?.error);
         }
@@ -163,7 +211,8 @@ const Inowave = () => {
               (
                 <GridItem>
                   <Flex
-                    minH={"100px"}
+                    minH={"200px"}
+                    border={'2px solid primaries.100'}
                     alignItems={"center"}
                     justifyContent={"center"}
                     flexDirection={'column'}
@@ -171,40 +220,66 @@ const Inowave = () => {
                   >
                     <Text fontSize={'2xl'} textAlign={"center"}>You have already submitted your entry</Text>
                     <Link
-                      href={submission.submission}
+                      href={submission.ppt}
                       bg={"blue.400"}
                       px={4}
-                      py={1}
+                      py={2}
                       color={"white"}
                       _hover={{
                         bg: "blue.500",
                       }}
                       borderRadius={'md'}
                     >
-                      Downlooad
+                      Downlooad ppt
                     </Link>
+                    
                   </Flex>
                 </GridItem>
               ) : (
                 <GridItem>
                   <Formik
-                    initialValues={{ file: {} }}
+                    initialValues={{ ppt: {},url:"",type:""}}
                     onSubmit={handleSubmit}
                   >
                     {({ handleBlur, handleChange, values, handleSubmit }) => (
                       <form onSubmit={handleSubmit}>
                         <Stack
-                          spacing={10}
-                          
+                          spacing={8}
                         >
-                          <FileInput
-                            accept={'.ppt,.pptx'}
-                            label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
-                            name='file'
+                          <SelectField
+                            name='type'
+                            value={values.type}
+                            label='Paper Type'
+                            placeholder={'Please Select an Option'}
+                            options={options}
+                            onChange={handleChange}
                             onBlur={handleBlur}
-                           bg={"rgba(165, 151, 39, 0.7)"}
                           />
-                          <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
+                      
+                          {
+                            values.type === 'ppt' && <FileInput
+                              accept={'.ppt,.pptx'}
+                              label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
+                              name='ppt'
+                              onBlur={handleBlur}
+                            />
+                          }
+                          {
+                            values.type==='link' &&   <FormField
+                            label="url"
+                            type='text'
+                            name="url"
+                            value={values.url}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="url"
+                            bg={"rgba(165, 151, 39, 0.7)"}
+            
+                          />
+                          }
+                          <ButtonWithModal
+                            handleSubmit={() => handleSubmit(values)}
+                          />
                         </Stack>
                       </form>
                     )}

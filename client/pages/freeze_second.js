@@ -60,6 +60,7 @@ const Freeze = () =>
         return;
       }
       const entryData = await submitEntries(data, "freeze");
+      console.log("freeze:",entryData);
       if (entryData?.error)
       {
         toast.error(entryData?.error);
