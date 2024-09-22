@@ -19,7 +19,7 @@ import privateUserRoute from "../routers/privateUserRoute";
 const Dashboard = () => {
   const { contEvents } = useContext(AppContext);
   console.log("indashboard",contEvents);
-  const textColor = useColorModeValue("gray.700", "gray.50");
+  const textColor = useColorModeValue("white", "white");
   return (
      <Layout>
        <Flex
@@ -42,13 +42,14 @@ const Dashboard = () => {
           <chakra.h1 py={2} fontSize={32} fontWeight={"bold"} color={textColor}>
             Registered Events
           </chakra.h1>
-        </Box>
-        {contEvents && contEvents.length === 0 && (
+          {contEvents && contEvents.length === 0 && (
           <Text fontSize={{ base: "2xl", md: "5xl" }} color={"white"}>
             {" "}
             You haven&lsquo;t registered for any event
           </Text>
         )}
+        </Box>
+       
         <SimpleGrid
           columns={{ base: 1, md: 2, xl: 3 }}
           spacing={"8"}

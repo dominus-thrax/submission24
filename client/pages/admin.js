@@ -2,36 +2,41 @@ import React, { useState, useEffect } from 'react';
 import {
   Box,
   Switch,
-  FormLabel,
-  FormControl,
   Input,
   Button,
   Flex,
   Spinner,
   Text,
   VStack,
-  HStack,
   Divider,
   useToast,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
 } from '@chakra-ui/react';
 import axios from 'axios';
-
-const INITIAL_GET_API = 'https://pulzion22-ems-backend-2.onrender.com/events';
-const SAVED_GET_API = 'http://ec2-18-212-109-220.compute-1.amazonaws.com:3001/allevents';
-const SAVE_POST_API = 'http://ec2-18-212-109-220.compute-1.amazonaws.com:3001/submission/post';
-const UPDATE_PATCH_API = 'http://ec2-18-212-109-220.compute-1.amazonaws.com:3001/submission/update';
+import apiConfig from '../configs/api';
+const INITIAL_GET_API = `${apiConfig.url}/allevents/events`;
+const SAVED_GET_API = `${apiConfig.url}/submission/get`;
+const SAVE_POST_API = `${apiConfig.url}/submission/post`;
+const UPDATE_PATCH_API = `${apiConfig.url}/submission/update`; // Fixed typo
 
 const AdminPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState({});
-  const toast = useToast();
+  const [submissionevents, setSubmissionevents] = useState([]);
 
+  const toast = useToast();
+  const admin=JSON.parse(localStorage.getItem("admin"));
   const fetchInitialEvents = async () => {
     try {
       setLoading(true);
       const response = await axios.get(INITIAL_GET_API);
-      const fetchedEvents = response.data.events;
+      const fetchedEvents = response.data;
 
       const initializedEvents = fetchedEvents.map(event => ({
         id: event.id,
@@ -56,24 +61,25 @@ const AdminPage = () => {
   };
 
   const fetchSavedEvents = async () => {
+    
+    if(admin){
     try {
       setLoading(true);
-      const response = await axios.get(SAVED_GET_API);
-      const savedEvents = response.data.events;
-
-      const mergedEvents = events.map(event => {
-        const savedEvent = savedEvents.find(se => se.id === event.id);
-        if (savedEvent) {
-          return {
-            ...event,
-            status: savedEvent.status,
-            route: savedEvent.route,
-          };
-        }
-        return event;
+      const response = await axios.get(SAVED_GET_API, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.token}`, // Add the token in the Authorization header
+        },
       });
-
-      setEvents(mergedEvents);
+      const savedEvents = response.data;
+      const initializedEvents = savedEvents.map(event => ({
+        id: event.event_id,
+        name: event.event_name,
+        status: event.event_status,
+        route: event.event_route,  
+      }));
+      
+      setSubmissionevents(initializedEvents);
     } catch (error) {
       console.error('Failed to fetch saved events:', error);
       toast({
@@ -86,7 +92,7 @@ const AdminPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };}
 
   useEffect(() => {
     const initialize = async () => {
@@ -94,11 +100,10 @@ const AdminPage = () => {
       await fetchSavedEvents();
     };
     initialize();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
-  const handleToggle = (eventId) => {
+  // Handle toggling for events array
+  const handleToggleEvent = (eventId) => {
     setEvents(prevEvents =>
       prevEvents.map(event =>
         event.id === eventId ? { ...event, status: !event.status } : event
@@ -106,7 +111,16 @@ const AdminPage = () => {
     );
   };
 
-  
+  // Handle toggling for submissionevents array
+  const handleToggleSubmissionEvent = (eventId) => {
+    setSubmissionevents(prevEvents =>
+      prevEvents.map(event =>
+        event.id === eventId ? { ...event, status: !event.status } : event
+      )
+    );
+  };
+
+  // Handle route change for events array
   const handleRouteChange = (eventId, newRoute) => {
     setEvents(prevEvents =>
       prevEvents.map(event =>
@@ -115,10 +129,20 @@ const AdminPage = () => {
     );
   };
 
-  
-  const handleSave = async (event) => {
-    const { id, name, status, route } = event;
+  // Handle route change for submissionevents array
+  const handleSubmissionRouteChange = (eventId, newRoute) => {
+    setSubmissionevents(prevEvents =>
+      prevEvents.map(event =>
+        event.id === eventId ? { ...event, route: newRoute } : event
+      )
+    );
+  };
 
+  // Add new event (using POST API)
+  
+  const handleAddEvent = async (event) => {
+    const { id, name, status, route } = event;
+    if(admin){
     if (!route.trim()) {
       toast({
         title: 'Invalid Input',
@@ -130,49 +154,71 @@ const AdminPage = () => {
       return;
     }
 
+   
     try {
       setSaving(prev => ({ ...prev, [id]: true }));
 
-      
-      const savedEvent = events.find(e => e.id === id && (e.route || e.status));
+      await axios.post(SAVE_POST_API, { id, name, status, route },{
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.token}`, // Add the token in the Authorization header
+        },
+      });
 
-      if (!savedEvent || (savedEvent.route === '' && savedEvent.status === false)) {
-        
-        await axios.post(SAVE_POST_API, {
-          id,
-          name,
-          status,
-          route,
-        });
-        toast({
-          title: 'Success',
-          description: `Configuration for "${name}" saved successfully.`,
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        
-        await axios.patch(`${UPDATE_PATCH_API}/${id}`, {
-          status,
-          route,
-        });
-        toast({
-          title: 'Success',
-          description: `Configuration for "${name}" updated successfully.`,
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-      }
+      toast({
+        title: 'Success',
+        description: `Event "${name}" added successfully.`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
 
       // Refetch saved events to update the state
       await fetchSavedEvents();
     } catch (error) {
-      console.error(`Failed to save/update configuration for "${name}":`, error);
+      console.error(`Failed to add event "${name}":`, error);
       toast({
         title: 'Error',
-        description: `Failed to save/update configuration for "${name}". Please try again.`,
+        description: `Failed to add event "${name}". Please try again.`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setSaving(prev => ({ ...prev, [id]: false }));
+    }
+  };}
+
+  // Update existing event (using PATCH API)
+ 
+  const handleUpdateEvent = async (event) => {
+    const { id, name, status } = event;
+    if(admin){
+    try {
+      setSaving(prev => ({ ...prev, [id]: true }));
+
+      await axios.patch(`${UPDATE_PATCH_API}/${id}`, { status },{
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.token}`, // Add the token in the Authorization header
+        },
+      });
+
+      toast({
+        title: 'Success',
+        description: `Event "${name}" updated successfully.`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      // Refetch saved events to update the state
+      await fetchSavedEvents();
+    } catch (error) {
+      console.error(`Failed to update event "${name}":`, error);
+      toast({
+        title: 'Error',
+        description: `Failed to update event "${name}". Please try again.`,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -181,7 +227,42 @@ const AdminPage = () => {
       setSaving(prev => ({ ...prev, [id]: false }));
     }
   };
+  }
 
+  const handleLogout=async()=>
+  {
+    if (admin) {
+      const options = {
+        method: "post",
+        url: `${apiConfig.url}/admin/signout`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.token}`,
+        },
+      };
+      try {
+        const res = await axios(options);
+        console.log("logout res:",res);
+        localStorage.removeItem("admin");
+        toast({
+          title: 'Success',
+          description: `logout successful`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      } catch (e) {
+        console.log(e);
+        toast({
+          title: 'Error',
+          description: `something went wrong`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+  }
   if (loading) {
     return (
       <Flex justify="center" align="center" height="100vh" bg="gray.50">
@@ -191,7 +272,72 @@ const AdminPage = () => {
   }
 
   return (
-    <Flex justify="center" align="center" minHeight="100vh" bg="gray.50" p={6}>
+    <Flex direction="column" justify="center" align="center" minHeight="100vh" bg="gray.50" p={6}>
+      <Box
+        w="100%"
+        maxWidth="800px"
+        p={8}
+        borderWidth="1px"
+        borderRadius="lg"
+        boxShadow="lg"
+        bg="white"
+      >
+         <Button onClick={()=>handleLogout()}>Logout</Button>
+        <Text fontSize="3xl" mb={6} fontWeight="bold" textAlign="center" color="teal.600">
+          Admin Panel
+        </Text>
+       
+        <Divider mb={6} />
+        
+        <VStack spacing={8} align="stretch">
+          <Table variant="striped" colorScheme="teal">
+            <Thead>
+              <Tr>
+                <Th>Event Name</Th>
+                <Th>Status</Th>
+                <Th>Route</Th>
+                <Th>Action</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {events.map(event => (
+                <Tr key={event.id}>
+                  <Td>{event.name}</Td>
+
+                  <Td>
+                    <Switch
+                      colorScheme="teal"
+                      isChecked={event.status}
+                      onChange={() => handleToggleEvent(event.id)}
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      placeholder="Enter route (e.g., /web-n-app)"
+                      value={event.route}
+                      onChange={(e) => handleRouteChange(event.id, e.target.value)}
+                      bg="white"
+                      borderColor="teal.400"
+                      focusBorderColor="teal.600"
+                    />
+                  </Td>
+                  <Td>
+                    <Button
+                      colorScheme="teal"
+                      onClick={() => handleAddEvent(event)}
+                      isLoading={saving[event.id]}
+                      loadingText="Saving"
+                    >
+                      Add
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </VStack>
+      </Box>
+
       <Box
         w="100%"
         maxWidth="800px"
@@ -202,54 +348,56 @@ const AdminPage = () => {
         bg="white"
       >
         <Text fontSize="3xl" mb={6} fontWeight="bold" textAlign="center" color="teal.600">
-          Admin Panel
+          Update Events
         </Text>
         <Divider mb={6} />
+
         <VStack spacing={8} align="stretch">
-          {events.map(event => (
-            <Box
-              key={event.id}
-              p={6}
-              borderWidth="1px"
-              borderRadius="lg"
-              boxShadow="md"
-              bg="gray.100"
-              _hover={{ bg: "gray.200" }}
-              transition="background-color 0.3s ease"
-            >
-              <HStack justify="space-between" mb={4}>
-                <Text fontSize="xl" fontWeight="semibold" color="teal.700">
-                  {event.name}
-                </Text>
-                <Switch
-                  colorScheme="teal"
-                  isChecked={event.status}
-                  onChange={() => handleToggle(event.id)}
-                />
-              </HStack>
-              <FormControl>
-                <FormLabel fontWeight="medium">Route</FormLabel>
-                <Input
-                  placeholder="Enter route (e.g., /web-n-app)"
-                  value={event.route}
-                  onChange={(e) => handleRouteChange(event.id, e.target.value)}
-                  bg="white"
-                  borderColor="teal.400"
-                  focusBorderColor="teal.600"
-                />
-              </FormControl>
-              <Button
-                mt={6}
-                w="full"
-                colorScheme="teal"
-                onClick={() => handleSave(event)}
-                isLoading={saving[event.id]}
-                loadingText="Saving"
-              >
-                {(event.status || event.route) ? 'Update' : 'Save'}
-              </Button>
-            </Box>
-          ))}
+          <Table variant="striped" colorScheme="teal">
+            <Thead>
+              <Tr>
+                <Th>Event Name</Th>
+                <Th>Status</Th>
+                <Th>Route</Th>
+                <Th>Action</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {submissionevents.map(event => (
+                <Tr key={event.id}>
+                  <Td>{event.name}</Td>
+
+                  <Td>
+                    <Switch
+                      colorScheme="teal"
+                      isChecked={event.status}
+                      onChange={() => handleToggleSubmissionEvent(event.id)}
+                    />
+                  </Td>
+                  <Td>
+                    <Input
+                      placeholder="Enter route (e.g., /web-n-app)"
+                      value={event.route}
+                      onChange={(e) => handleSubmissionRouteChange(event.id, e.target.value)}
+                      bg="white"
+                      borderColor="teal.400"
+                      focusBorderColor="teal.600"
+                    />
+                  </Td>
+                  <Td>
+                    <Button
+                      colorScheme="teal"
+                      onClick={() => handleUpdateEvent(event)}
+                      isLoading={saving[event.id]}
+                      loadingText="Saving"
+                    >
+                      Update
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
         </VStack>
       </Box>
     </Flex>
@@ -257,256 +405,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import {
-//   Box,
-//   Switch,
-//   FormLabel,
-//   FormControl,
-//   Input,
-//   Button,
-//   Flex,
-//   Spinner,
-//   Text,
-//   VStack,
-//   HStack,
-// } from '@chakra-ui/react';
-// import { toast } from 'react-toastify';
-// import axios from 'axios';
-
-// const AdminPage = () => {
-//   const [events, setEvents] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [saving, setSaving] = useState({});
-//   const [isInitialLoad, setIsInitialLoad] = useState(true);
-//   const [isEventSaved, setIsEventSaved] = useState({});
-
-//   useEffect(() => {
-//     const fetchInitialEvents = async () => {
-//       try {
-//         setLoading(true);
-//         const response = await axios.get('https://pulzion22-ems-backend-2.onrender.com/events');
-//         const fetchedEvents = response.data.events;
-
-//         const initializedEvents = fetchedEvents.map(event => ({
-//           id: event.id,
-//           name: event.name,
-//           status: event.status || false,  
-//           route: event.route || '',    
-//           isSaved: false,           
-//         }));
-
-//         setEvents(initializedEvents);
-//         setIsInitialLoad(false); 
-//       } catch (error) {
-//         console.error('Failed to fetch events:', error);
-//         toast.error('Failed to fetch events. Please try again later.');
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchInitialEvents();
-//   }, []);
-
-//   const handleToggle = (eventId) => {
-//     setEvents(prevEvents =>
-//       prevEvents.map(event =>
-//         event.id === eventId ? { ...event, status: !event.status } : event
-//       )
-//     );
-//   };
-
-//   const handleRouteChange = (eventId, newRoute) => {
-//     setEvents(prevEvents =>
-//       prevEvents.map(event =>
-//         event.id === eventId ? { ...event, route: newRoute } : event
-//       )
-//     );
-//   };
-
-//   const handleSave = async (event) => {
-//     const { id, name, status, route } = event;
-
-//     if (!route.trim()) {
-//       toast.error(`Please provide a valid route for "${name}".`);
-//       return;
-//     }
-
-//     try {
-//       setSaving(prev => ({ ...prev, [id]: true }));
-
-//       if (!route) {
-//         await axios.post('http://ec2-18-212-109-220.compute-1.amazonaws.com:3001/submission/post', {
-//           id,
-//           name,
-//           status,
-//           route,
-//         });
-
-//         setIsEventSaved(prev => ({ ...prev, [id]: true }));
-//         toast.success(`Configuration for "${name}" saved successfully.`);
-
-//       } else {
-//         await axios.patch(`http://ec2-18-212-109-220.compute-1.amazonaws.com:3001/submission/update/${id}`, {
-//           route,
-//           status,
-//         });
-
-//         toast.success(`Route for "${name}" updated successfully.`);
-//       }
-//     } catch (error) {
-//       console.error(`Failed to save or update configuration for "${name}":`, error);
-//       toast.error(`Failed to save or update configuration for "${name}". Please try again.`);
-//     } finally {
-//       setSaving(prev => ({ ...prev, [id]: false }));
-//     }
-//   };
-
-//   const fetchUpdatedEvents = async () => {
-//     try {
-//       setLoading(true);
-//       const response = await axios.get('http://ec2-18-212-109-220.compute-1.amazonaws.com:3001/allevents');
-//       const fetchedEvents = response.data.events;
-
-//       const initializedEvents = fetchedEvents.map(event => ({
-//         id: event.id,
-//         name: event.name,
-//         status: event.status || false, 
-//         route: event.route || '', 
-//         // isSaved: true, 
-//       }));
-
-//       setEvents(initializedEvents);
-//     } catch (error) {
-//       console.error('Failed to fetch updated events:', error);
-//       toast.error('Failed to fetch updated events. Please try again later.');
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (!isInitialLoad) {
-//       fetchUpdatedEvents();
-//     }
-//   }, [isInitialLoad]);
-
-//   if (loading) {
-//     return (
-//       <Flex justify="center" align="center" height="100vh">
-//         <Spinner size="xl" />
-//       </Flex>
-//     );
-//   }
-
-//   return (
-//     <Flex justify="center" align="center" minHeight="100vh" bg="gray.50" p={6}>
-//       <Box
-//         w="100%"
-//         maxWidth="800px"
-//         p={8}
-//         borderWidth="1px"
-//         borderRadius="lg"
-//         boxShadow="lg"
-//         bg="white"
-//       >
-//         <Text fontSize="3xl" mb={6} fontWeight="bold" textAlign="center" color="teal.600">
-//           Admin Panel
-//         </Text>
-//         <Divider mb={6} />
-//         <VStack spacing={8} align="stretch">
-//           {events.map(event => (
-//             <Box
-//               key={event.id}
-//               p={6}
-//               borderWidth="1px"
-//               borderRadius="lg"
-//               boxShadow="md"
-//               bg="gray.100"
-//               _hover={{ bg: "gray.200" }}
-//               transition="background-color 0.3s ease"
-//             >
-//               <HStack justify="space-between" mb={4}>
-//                 <Text fontSize="xl" fontWeight="semibold" color="teal.700">
-//                   {event.name}
-//                 </Text>
-//                 <Switch
-//                   colorScheme="teal"
-//                   isChecked={event.status}
-//                   onChange={() => handleToggle(event.id)}
-//                 />
-//               </HStack>
-//               <FormControl>
-//                 <FormLabel fontWeight="medium">Route</FormLabel>
-//                 <Input
-//                   placeholder="Enter route (e.g., /web-n-app)"
-//                   value={event.route}
-//                   onChange={(e) => handleRouteChange(event.id, e.target.value)}
-//                   bg="white"
-//                   borderColor="teal.400"
-//                   focusBorderColor="teal.600"
-//                 />
-//               </FormControl>
-//               <Button
-//                 mt={6}
-//                 w="full"
-//                 colorScheme="teal"
-//                 onClick={() => handleSave(event)}
-//                 isLoading={saving[event.id]}
-//                 loadingText="Saving"
-//               >
-//                 {isEventSaved[event.id] ? 'Update' : 'Save'}
-//               </Button>
-//             </Box>
-//           ))}
-//         </VStack>
-//       </Box>
-//     </Flex>
-//   );
-// };
-
-// export default AdminPage;

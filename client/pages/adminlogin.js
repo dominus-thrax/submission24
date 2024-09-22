@@ -1,61 +1,61 @@
-import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Button,
-  Heading,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { Formik } from "formik";
-import { toast } from 'react-toastify';
+import React, { useContext, useState } from 'react'
+import Layout from '../components/Layout'
+import { Box, Button, Flex, Heading, Stack, useColorModeValue } from '@chakra-ui/react'
+import { Formik } from 'formik'
+import FormField from '../components/FormField'
 import * as Yup from "yup";
-import { useContext, useState } from "react";
-import Layout from "../components/Layout";
-import FormField from "../components/FormField";
-import { userLogin } from "../action/user";
-import AppContext from "../context/AppContext";
-import publicRoute from "../routers/publicRoute";
-
+import AppContext from '../context/AppContext'
+import { userLogin } from '../action/user'
+import apiConfig from '../configs/api'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 const validateSchema = Yup.object({
-  email: Yup.string().email("Invalid email address").required("Required"),
+  username: Yup.string().required("Required"),
   password: Yup.string().required("Required")
 });
 
-function Loginpage() {
-
-  const { dispatchUser, dispatchEvents } = useContext(AppContext);
+const login = () => {
+    
   const [loading, setLoading] = useState(false);
-
+  const router=useRouter();
   const handleLogin = async (values) => {
     console.log(values);
+    
     try {
-      setLoading(true);
-      const data = await userLogin(values, 'user', dispatchUser, dispatchEvents);
-      if (data?.error) {
-        toast.error(data.error);
-      }
+      const options = {
+        method: "POST",
+        url: `${apiConfig.url}/admin/signin`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: values,
+      };
+      const res = await axios(options);
+      localStorage.setItem(
+        "admin",
+        JSON.stringify({ token: res.data.token})
+      );
+      console.log(res);
+      router.push('/admin');
     } catch (e) {
       console.log(e)
-      toast.error('Something Went Wrong')
+      toast.error('Invalid Admin')
     }
     setLoading(false)
   }
-
   return (
     <Layout>
       <Flex
         alignItems={"center"}
         justifyContent={"center"}
         px={{
-          base: '16px',
+          base: '64px',
           md: '48px',
           lg: '64px'
         }}
         py={"1px"}
-        w={"100%"}
+        w={"100vw"}
       >
         <Flex
           align={"center"}
@@ -66,19 +66,23 @@ function Loginpage() {
           bg={useColorModeValue("white.100", "secondaries.800")}
         >
           <Stack spacing={"1"} py={12} px={4}
-             bg={'#536F53'}
-             rounded={"xl"}
+            bgImage="/signup.png"  // Replace with your image URL
+            bgPosition="center"
+            bgRepeat="no-repeat"
+            bgSize="cover"
+            
             >
             <Stack align={"center"}>
-              <Heading fontFamily={'vt323, monospace'} fontSize={"4xl"} color={"white"}>Sign in to your account </Heading>
+              <Heading fontFamily={'vt323, monospace'} fontSize={"4xl"} color={"white"}>Admin sign in</Heading>
             </Stack>
             <Box
-             
-              px={"5"}
+              rounded={"lg"}
+              boxShadow={"md"}
+              px={"10"}
               py={"4"}         
             >
               <Formik
-                initialValues={{ email: "", password: "" }}
+                initialValues={{ username: "", password: "" }}
                 validationSchema={validateSchema}
                 onSubmit={handleLogin}
               >
@@ -86,13 +90,14 @@ function Loginpage() {
                   <form onSubmit={handleSubmit}>
                     <Stack spacing={"3"}>
                       <FormField
-                        type="email"
-                        placeholder="Email"
-                        name="email"
-                        label="Email Address"
-                        value={values.email}
+                        type="username"
+                        placeholder="username"
+                        name="username"
+                        label="Username"
+                        value={values.username}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        width={"full"}
                       />
                       <FormField
                         label="Password"
@@ -102,12 +107,13 @@ function Loginpage() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         placeholder="Password"
+                        width={"full"}
                       />
                       <Button
                         bg={"#BE913E"}
                         color={"white"}
                         _hover={{
-                          bg: "CCBA63",
+                          bg: "#CCBA63",
                         }}
                         type="submit"
                         isLoading={loading}
@@ -124,8 +130,8 @@ function Loginpage() {
         </Flex>
       </Flex>
     </Layout>
+  )
 
-  );
 }
 
-export default publicRoute(Loginpage);
+export default login;

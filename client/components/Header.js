@@ -54,7 +54,7 @@ const Header = () => {
       gap={"15px"}
       pr={4} // Add some padding to the right if needed
     >
-      {user?.id && <Button onClick={handleLogout}>Log Out</Button>}
+      {user?.id && <Button onClick={handleLogout} fontSize={20}>Log Out</Button>}
     </Flex>
   </Flex>
   
