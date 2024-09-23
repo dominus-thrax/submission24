@@ -192,12 +192,12 @@ const AdminPage = () => {
   // Update existing event (using PATCH API)
  
   const handleUpdateEvent = async (event) => {
-    const { id, name, status } = event;
+    const { id, name, status,route } = event;
     if(admin){
     try {
       setSaving(prev => ({ ...prev, [id]: true }));
 
-      await axios.patch(`${UPDATE_PATCH_API}/${id}`, { status },{
+      await axios.patch(`${UPDATE_PATCH_API}/${id}`, { status,route },{
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${admin.token}`, // Add the token in the Authorization header

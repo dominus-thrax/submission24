@@ -58,7 +58,7 @@ const Leader = () => {
                             fontWeight={"bold"}
                             fontSize={20}
                             textTransform={"uppercase"}
-                            color={"purple.400"}
+                            color={"green.400"}
                             cursor="pointer"
                             display={'flex'}
                             alignItems={'center'}

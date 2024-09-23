@@ -55,7 +55,7 @@ const Dataquest = () => {
             const entryData = await submitEntries({
                 submission_csv: data.submission,
                 submission_python: data_python.submission
-            }, 'dataquest2');
+            }, 'dataquest1');
             if (entryData?.error) {
                 toast.error(entryData?.error);
                 setLoading(false);
@@ -74,7 +74,7 @@ const Dataquest = () => {
     useEffect(() => {
         const fetchSubmission = async () => {
             try {
-                const entryData = await getEntries('dataquest2');
+                const entryData = await getEntries('dataquest1');
                 if (entryData?.error) {
                     console.log(entryData?.error);
                 }
@@ -118,7 +118,7 @@ const Dataquest = () => {
                         fontWeight={"bold"}
                         color={textColor}
                     >
-                        DataQuest Round 2 {senior ? "( TE-BE )" : "( FE-SE )"}
+                        DataQuest Round 1 {senior ? "( TE-BE )" : "( FE-SE )"}
                     </chakra.h1>
                     <NextLink href='/dataquest/leaderboard'>
                         <chakra.span
