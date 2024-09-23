@@ -50,7 +50,6 @@ const Inowave = () => {
             return
           }
           const entryData = await submitEntries({
-            type:"ppt",
             submission:data.submission
           }, 'innowave');
     
@@ -76,9 +75,8 @@ const Inowave = () => {
         }
         try {
           const entryData = await submitEntries({
-            type:values.type,
             submission:values.url
-          }, 'innowave');
+          }, 'innowave2');
     
           if (entryData?.error) {
             toast.error(entryData?.error);

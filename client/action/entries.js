@@ -79,3 +79,34 @@ export const getLeaderboard = async (type) => {
         }
     }
 }
+
+
+export const getWebappResults = async () => {
+    const submission = JSON.parse(localStorage.getItem("submission"));
+    if (submission) {
+        const options = {
+            method: "GET",
+            url: `${apiConfig.url}/${type}/getresult`,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${submission.token}`,
+            },
+        };
+        try {
+            const res = await axios(options);
+            return res.data;
+        } catch (e) {
+            console.log(e);
+            if (e?.response?.data) {
+                return e.response.data;
+            }
+            return {
+                error: "Something Went Wrong",
+            };
+        }
+    } else {
+        return {
+            error: "No submission token found",
+        };
+    }
+};
