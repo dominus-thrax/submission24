@@ -56,6 +56,7 @@ export const loadUser = async (dispatchUser, dispatchEvents) => {
     };
     try {
       const res = await axios(options);
+     console.log("res:",res);
       dispatchUser({
         type: "SET_USER",
         user: {

@@ -16,9 +16,21 @@ import {
   Th,
   Tbody,
   Td,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import apiConfig from '../configs/api';
+import { useRouter } from "next/router";
+import { ChevronDownIcon} from "@chakra-ui/icons";
+
+
 const INITIAL_GET_API = `${apiConfig.url}/allevents/events`;
 const SAVED_GET_API = `${apiConfig.url}/submission/get`;
 const SAVE_POST_API = `${apiConfig.url}/submission/post`;
@@ -29,7 +41,7 @@ const AdminPage = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState({});
   const [submissionevents, setSubmissionevents] = useState([]);
-
+   const route=useRouter();
   const toast = useToast();
   const admin=JSON.parse(localStorage.getItem("admin"));
   const fetchInitialEvents = async () => {
@@ -282,7 +294,18 @@ const AdminPage = () => {
         boxShadow="lg"
         bg="white"
       >
-         <Button onClick={()=>handleLogout()}>Logout</Button>
+        <Flex gap={6}>
+        <Button onClick={()=>handleLogout()}>Logout</Button>
+        <Menu>
+          <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            Result
+          </MenuButton>
+          <MenuList>
+            <MenuItem onClick={()=>route.push('/result')}>Result</MenuItem>
+            <MenuItem>Abstract</MenuItem>
+          </MenuList>
+        </Menu>
+        </Flex>
         <Text fontSize="3xl" mb={6} fontWeight="bold" textAlign="center" color="teal.600">
           Admin Panel
         </Text>

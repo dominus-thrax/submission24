@@ -81,19 +81,21 @@ export const getLeaderboard = async (type) => {
 }
 
 
-export const getWebappResults = async () => {
-    const submission = JSON.parse(localStorage.getItem("submission"));
-    if (submission) {
+export const getResults = async (type) => {
+    const Admin = JSON.parse(localStorage.getItem("admin"));
+   // console.log(type);
+    if (Admin) {
         const options = {
             method: "GET",
             url: `${apiConfig.url}/${type}/getresult`,
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${submission.token}`,
+                Authorization: `Bearer ${Admin.token}`,
             },
         };
         try {
             const res = await axios(options);
+            //console.log(res.data);
             return res.data;
         } catch (e) {
             console.log(e);
