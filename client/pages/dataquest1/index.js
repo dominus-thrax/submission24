@@ -56,6 +56,7 @@ const Dataquest = () => {
                 submission_csv: data.submission,
                 submission_python: data_python.submission
             }, 'dataquest1');
+            console.log(entryData);
             if (entryData?.error) {
                 toast.error(entryData?.error);
                 setLoading(false);
@@ -120,7 +121,7 @@ const Dataquest = () => {
                     >
                         DataQuest Round 1 {senior ? "( TE-BE )" : "( FE-SE )"}
                     </chakra.h1>
-                    <NextLink href='/dataquest/leaderboard'>
+                    <NextLink href='/dataquest1/leaderboard'>
                         <chakra.span
                             fontWeight={"bold"}
                             fontSize={20}
