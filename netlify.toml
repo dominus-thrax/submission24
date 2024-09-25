@@ -1,3 +1,0 @@
-base = "client/"
-publish = "client/out/"
-command = "npm run build"
