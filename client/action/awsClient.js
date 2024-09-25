@@ -2,8 +2,8 @@ import AWS from 'aws-sdk'
 import apiConfig from '../configs/api'
 
 AWS.config.update({
-    accessKeyId: apiConfig.accessKey,
-    secretAccessKey: apiConfig.secretAccessKey,
+    accessKeyId: process.env.accessKey,
+    secretAccessKey:  process.env.secretAccessKey,
     region: 'ap-south-1'  
 })
 
