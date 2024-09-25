@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }) {
           href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
           rel="stylesheet"
         />
-          <title>Pulzion 23 | Submission</title>
+          <title>Pulzion 24 | Submission</title>
         </Head>
         <ToastContainer />
         <Component {...pageProps} />

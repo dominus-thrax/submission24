@@ -10,7 +10,7 @@ import AppContext from '../../context/AppContext';
 import privateUserRoute from '../../routers/privateUserRoute';
 
 const Leader = () => {
-    const textColor = useColorModeValue("gray.700", "gray.50");
+    const textColor = useColorModeValue("white", "white");
     const [submissions, setSubmissions] = useState([])
     const [loading, setLoading] = useState(true)
     const cardBg = useColorModeValue("white.100", "secondaries.800");
@@ -40,7 +40,7 @@ const Leader = () => {
                     md: '48px',
                     lg: '64px'
                 }}
-                pt="100px"
+               pt="2px"
             >
                 <Flex
                     // alignItems={'center'}
@@ -93,7 +93,7 @@ const Leader = () => {
                                     alignItems={'center'}
                                     mb={3}
                                 >
-                                    Leaderboard will be live soon.
+                                    Leaderboard will be live soon....
                                 </chakra.h3>
                             )
                         }

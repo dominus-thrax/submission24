@@ -14,23 +14,13 @@ import { ChevronLeftIcon } from '@chakra-ui/icons';
 import SelectField from '../components/SelectField';
 import FormField from '../components/FormField';
 
-const options = [
-  { value: "ppt", label: "ppt" },
-  { value: "link", label: "link" },
-]
-const Inowave = () => {
+
+const Inowave1 = () => {
   const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
    
-    if(values?.type==="")
-      {
-        toast.error('Please Select a option')
-        return;
-      }
-    if(values.type==="ppt")
-    {
         if (!values?.ppt?.name) {
           toast.error('Please Select a file')
           return;
@@ -66,33 +56,6 @@ const Inowave = () => {
         }
         setLoading(false);
       }
-    else if(values.type==="link")
-    {
-      if(values?.url==='')
-        {
-          toast.error('Please enter link')
-          return;
-        }
-        try {
-          const entryData = await submitEntries({
-            submission:values.url
-          }, 'innowave2');
-    
-          if (entryData?.error) {
-            toast.error(entryData?.error);
-            setLoading(false);
-            return;
-          }
-          setSubmission(entryData.submission);
-          toast.success('Entry Submitted Successfully');
-        } catch (e) {
-          console.log(e)
-          toast.error('Someting Went Wrong')
-        }
-        setLoading(false);
-      }
-    }
-   
     
   useEffect(() => {
     const fetchSubmission = async () => {
@@ -216,19 +179,20 @@ const Inowave = () => {
                     flexDirection={'column'}
                     gap={5}
                   >
-                    <Text fontSize={'2xl'} textAlign={"center"}>You have already submitted your entry</Text>
+                    <Text fontSize={'2xl'} textAlign={"center"} color={textColor}>You have already submitted your entry</Text>
                     <Link
-                      href={submission.ppt}
-                      bg={"blue.400"}
+                      href={submission.submission}
+                      bg={"#203449"}
                       px={4}
-                      py={2}
+                      py={1}
                       color={"white"}
                       _hover={{
-                        bg: "blue.500",
+                        bg: "#88B788",
                       }}
                       borderRadius={'md'}
+                      fontSize={20}
                     >
-                      Downlooad ppt
+                      Download ppt
                     </Link>
                     
                   </Flex>
@@ -236,7 +200,7 @@ const Inowave = () => {
               ) : (
                 <GridItem>
                   <Formik
-                    initialValues={{ ppt: {},url:"",type:""}}
+                    initialValues={{ ppt: {}}}
                     onSubmit={handleSubmit}
                   >
                     {({ handleBlur, handleChange, values, handleSubmit }) => (
@@ -244,38 +208,16 @@ const Inowave = () => {
                         <Stack
                           spacing={8}
                         >
-                          <SelectField
-                            name='type'
-                            value={values.type}
-                            label='Paper Type'
-                            placeholder={'Please Select an Option'}
-                            options={options}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
+                        
                       
-                          {
-                            values.type === 'ppt' && <FileInput
+                         <FileInput
                               accept={'.ppt,.pptx'}
                               label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
                               name='ppt'
                               onBlur={handleBlur}
                               bg={"rgba(165, 151, 39, 0.7)"}
                             />
-                          }
-                          {
-                            values.type==='link' &&   <FormField
-                            label="url"
-                            type='text'
-                            name="url"
-                            value={values.url}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            placeholder="url"
-                            bg={"rgba(165, 151, 39, 0.7)"}
-            
-                          />
-                          }
+                        
                           <ButtonWithModal
                             handleSubmit={() => handleSubmit(values)}
                           />
@@ -294,4 +236,4 @@ const Inowave = () => {
   )
 }
 
-export default privateUserRoute(Inowave)
+export default privateUserRoute(Inowave1)

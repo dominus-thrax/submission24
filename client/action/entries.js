@@ -33,7 +33,7 @@ export const getEntries = async (type) => {
     if (submission) {
         const options = {
             method: "GET",
-            url: `${apiConfig.url}/${type}`,
+            url: `${apiConfig.url}/${type}/get`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${submission.token}`,

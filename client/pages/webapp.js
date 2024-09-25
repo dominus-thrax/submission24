@@ -148,7 +148,7 @@ const Webapp = () => {
                     <Text fontSize='xl'>
                       4. The decision of the organizers and judges will be final and binding on all participants.
                     </Text>
-                    <Text fontSize='xl'>
+                    <Text fontSize='xl' textDecor={"underline"}>
                       Team Distribution:
                     </Text>
                     <Text fontSize='xl'>
@@ -174,19 +174,20 @@ const Webapp = () => {
                     flexDirection={'column'}
                     gap={5}
                   >
-                    <Text fontSize={'2xl'} textAlign={"center"}>You have already submitted your entry</Text>
+                    <Text fontSize={'2xl'} textAlign={"center"} color={textColor}>You have already submitted your entry</Text>
                     <Link
                       href={submission.submission}
-                      bg={"blue.400"}
+                      bg={"#203449"}
                       px={4}
                       py={1}
                       color={"white"}
                       _hover={{
-                        bg: "blue.500",
+                        bg: "#88B788",
                       }}
                       borderRadius={'md'}
+                      fontSize={20}
                     >
-                      Downlooad
+                      Download
                     </Link>
                   </Flex>
                 </GridItem>

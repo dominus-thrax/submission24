@@ -83,6 +83,7 @@ const Freeze = () =>
       try
       {
         const entryData = await getEntries("freeze");
+       // console.log(entryData.submission);
         if (entryData?.error)
         {
           console.log(entryData?.error);
@@ -175,19 +176,20 @@ const Freeze = () =>
                 flexDirection={"column"}
                 gap={5}
               >
-                <Text fontSize={"2xl"} textAlign={"center"}>
+                <Text fontSize={"2xl"} textAlign={"center"} color={textColor}>
                   You have already submitted your entry
                 </Text>
                 <Link
                   href={submission.submission}
-                  bg={"blue.400"}
+                  bg={"#203449"}
                   px={4}
-                  py={2}
+                  py={1}
                   color={"white"}
                   _hover={{
-                    bg: "blue.500",
+                    bg: "#88B788",
                   }}
-                  borderRadius={"md"}
+                  borderRadius={'md'}
+                  fontSize={20}
                 >
                   Download
                 </Link>

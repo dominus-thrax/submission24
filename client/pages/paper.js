@@ -207,34 +207,36 @@ const PaperPresentation = () => {
                     flexDirection={'column'}
                     gap={5}
                   >
-                    <Text fontSize={'2xl'} textAlign={"center"}>You have already submitted your entry</Text>
+                    <Text fontSize={'2xl'} textAlign={"center"} color={textColor}>You have already submitted your entry</Text>
                     <Link
                       href={submission.submission_abstract}
-                      bg={"blue.400"}
+                      bg={"#203449"}
                       px={4}
-                      py={2}
+                      py={1}
                       color={"white"}
                       _hover={{
-                        bg: "blue.500",
+                        bg: "#88B788",
                       }}
                       borderRadius={'md'}
+                      fontSize={20}
                     >
-                      Downlooad Abstract
+                      Download Abstract
                     </Link>
                     {
                       submission.type === 'Paper Presentation Track' && (
                         <Link
                           href={submission.submission_paper}
-                          bg={"blue.400"}
+                          bg={"#203449"}
                           px={4}
-                          py={2}
+                          py={1}
                           color={"white"}
                           _hover={{
-                            bg: "blue.500",
+                            bg: "#88B788",
                           }}
                           borderRadius={'md'}
+                          fontSize={20}
                         >
-                          Downlooad Paper
+                          Download Paper
                         </Link>
                       )
                     }

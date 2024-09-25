@@ -15,7 +15,7 @@ import { dateString } from '../../utils/dateString';
 import AppContext from '../../context/AppContext';
 
 const Dataquest = () => {
-    const textColor = useColorModeValue("gray.700", "gray.50");
+    const textColor = useColorModeValue("white", "white");
     const [submissions, setSubmissions] = useState();
     const [loading, setLoading] = useState(true);
     const cardBg = useColorModeValue("white.100", "secondaries.800");
@@ -103,7 +103,7 @@ const Dataquest = () => {
                 <NextLink href='/dashboard'>
                     <chakra.h3
                         fontWeight={"bold"}
-                        fontSize={20}
+                        fontSize={24}
                         textTransform={"uppercase"}
                         color={"#5FAB63"}
                         cursor="pointer"
@@ -115,7 +115,7 @@ const Dataquest = () => {
                 </NextLink>
                 <Box py={5}>
                     <chakra.h1
-                        fontSize={48}
+                        fontSize={40}
                         fontWeight={"bold"}
                         color={textColor}
                     >
@@ -139,12 +139,12 @@ const Dataquest = () => {
                 >
                     <GridItem>
                         <Tabs onChange={(index) => setTabIndex(index)}>
-                            <TabList>
-                                <Tab>
+                            <TabList color={textColor}>
+                                <Tab fontSize={20}>
                                     Problem
                                 </Tab>
-                                <Tab>Rules</Tab>
-                                <Tab>My Submissions</Tab>
+                                <Tab fontSize={20}>Rules</Tab>
+                                <Tab fontSize={20}>My Submissions</Tab>
                             </TabList>
                             <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                                 <TabPanel>
@@ -168,24 +168,29 @@ const Dataquest = () => {
                                         <Text fontSize='2xl'>
                                             Rules
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            1. Participants are expected to submit their CSV files on the Pulzion&apos;22 Submission Platform along with .ipynb/.py file.
+                                        <Text fontSize='xl'>
+                                            1. The problem statement along with the dataset will be released on the platform.
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            2. You can view the public leaderboard to compete against the best of the best solutions and achieve better results.
+                                        <Text fontSize='xl'>
+                                            2. The link for the contest will be shared with the participants through email.
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            3. A maximum of 3 submissions are allowed per day.
-
+                                        <Text fontSize='xl'>
+                                           3.  Participants are expected to submit their CSV files along with .ipynb/.py files.
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            4. The best score out of the submissions will be considered for evaluation.
+                                        <Text fontSize='xl'>
+                                            4. You can view the public leaderboard to compete against the best of the best solutions and achieve better results.
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            5. Two rounds are to be conducted with different datasets for each category.
+                                        <Text fontSize='xl'>
+                                            5. The right to decide the optimization metric will rest with the judges and it will be final and binding (example: RMSE, MAE, or R² for regression problems; Accuracy, Precision, F1-Score, or AUC-ROC for classification problems).
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            6. Participants will be filtered out from Round 1 according to the decided metrics.
+                                        <Text fontSize='xl'>
+                                           6.  Any unfair means will lead to immediate disqualification.
+                                        </Text>
+                                        <Text fontSize='xl'>
+                                            7. Every round is an elimination round.
+                                        </Text>
+                                        <Text fontSize='xl'>
+                                            8. The right to decide the optimization metric will rest with the judges and it will be final and binding.
                                         </Text>
                                     </Stack>
                                 </TabPanel>
@@ -209,11 +214,11 @@ const Dataquest = () => {
                                                             flexDirection={"column"}
                                                             gap={5}
                                                         >
-                                                            <Text fontSize='lg'>{dateString(submission.created_at)}</Text>
-                                                            <Text fontSize='lg'>{senior ? "F1 Score: " : "Mean Square Error : "} {acc.toPrecision(5)}</Text>
+                                                            <Text fontSize='xl'>{dateString(submission.created_at)}</Text>
+                                                            <Text fontSize='xl'>{senior ? "F1 Score: " : "Mean Square Error : "} {acc.toPrecision(5)}</Text>
                                                         </Flex>
                                                         <Link href={submission.submission_csv}>
-                                                            <DownloadIcon fontSize={'lg'} />
+                                                            <DownloadIcon fontSize={'xl'} />
                                                         </Link>
                                                     </Flex>
                                                 )
@@ -245,7 +250,7 @@ const Dataquest = () => {
                                             >
                                                 Submit your Entry
                                             </chakra.h3>
-                                            <Text fontSize={'lg'}>maximum 3 entries per day</Text>
+                                            <Text fontSize={'lg'} color={textColor}>maximum 3 entries per day</Text>
                                         </Box>
                                         <FileInput
                                             accept={'.csv'}

@@ -2,68 +2,56 @@ import { Box, Button, chakra, Flex, Grid, GridItem, Link, SimpleGrid, Stack, Tab
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import privateUserRoute from '../routers/privateUserRoute';
-import * as Yup from "yup";
 import { Formik } from "formik";
-import NextLink from 'next/link';
 import { toast } from 'react-toastify';
+import FileInput from '../components/FileInput';
+import NextLink from 'next/link';
+import { uploadFile } from '../action/uploadFile';
 import ButtonWithModal from '../components/ButtonWithModal';
 import { getEntries, submitEntries } from '../action/entries';
 import ContentLoader from '../components/ContentLoader';
-import FormField from '../components/FormField';
-import TextEditor from '../components/TextEditor';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import FileInput from '../components/FileInput';
-import { uploadFile } from '../action/uploadFile';
+import SelectField from '../components/SelectField';
+import FormField from '../components/FormField';
 
 
-
-const Insight = () => {
-  const textColor = useColorModeValue("white", "white")
+const Inowave2 = () => {
+  const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
-    console.log(values)
-    if (!values?.submission?.name) {
-      toast.error('Please Select a file')
-      return;
-    }
-    console.log(values.submission.size)
-    if (values.submission.size > 5000000) {
-      toast.error('File Size Exceeded');
-      return;
-    }
-    try {
-      setLoading(true);
-      const data = await uploadFile(values.submission)
-      console.log("insight:",data);
-      if (data?.error) {
-        toast.error('Someting Went Wrong')
+   
+   
+      if(values?.url==='')
+        {
+          toast.error('Please enter link')
+          return;
+        }
+        try {
+          const entryData = await submitEntries({
+            submission:values.url
+          }, 'innowave2');
+    
+          if (entryData?.error) {
+            toast.error(entryData?.error);
+            setLoading(false);
+            return;
+          }
+          setSubmission(entryData.submission);
+          toast.success('Entry Submitted Successfully');
+        } catch (e) {
+          console.log(e)
+          toast.error('Someting Went Wrong')
+        }
         setLoading(false);
-        return
       }
-      const entryData = await submitEntries({
-        submission:data.submission,
-        topic:values.topic
-      }, 'insight');
-      if (entryData?.error) {
-        toast.error(entryData?.error);
-        setLoading(false);
-        return;
-      }
-      console.log("entrydata insight:",entryData.submission)
-      setSubmission(entryData?.submission);
-      
-      toast.success('Entry Submitted Successfully');
-    } catch (e) {
-      console.log(e)
-      toast.error('Someting Went Wrong')
-    }
-    setLoading(false);
-  }
+    
+   
+    
   useEffect(() => {
     const fetchSubmission = async () => {
       try {
-        const entryData = await getEntries('insight');
+        const entryData = await getEntries('innowave2');
         if (entryData?.error) {
           console.log(entryData?.error);
         }
@@ -98,21 +86,22 @@ const Insight = () => {
             display={"flex"}
             alignItems={"center"}
           >
-            <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
+            <ChevronLeftIcon w={6} h={6}/> <span>Back to all events</span>
           </chakra.h3>
         </NextLink>
         <chakra.h1
-         py={5} fontSize={40} fontWeight={"bold"} color={textColor}
+          py={5} fontSize={40} fontWeight={"bold"} color={textColor}
         >
-          Insight
+          Inowave
         </chakra.h1>
         <SimpleGrid
           columns={{ base: 1, md: 2 }}
           gap={10}
         >
-          <GridItem>
+          <GridItem
+          >
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList color={textColor}>
+              <TabList color={"white"}>
                 <Tab fontSize={20}>
                   Topics
                 </Tab>
@@ -121,33 +110,49 @@ const Insight = () => {
               <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='xl'>
+                    <Text fontSize='3xl'>
                       Topics
                     </Text>
-                   
+                    <Text fontSize='xl'>
+                      - Application for an NGO to display its work + accept donations
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Travelogue Application
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Application for Health and Fitness
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Website/App for selling sports goods
+                    </Text>
+                    <Text fontSize='xl'>
+                      - Smart hiring platform for recruiters
+                    </Text>
                   </Stack>
                 </TabPanel>
                 <TabPanel>
                   <Stack spacing={3}>
-                    {/* <Text fontSize='2xl'>
+                    <Text fontSize='3xl'>
                       Instructions
-                    </Text> */}
-                   <Text fontSize='xl'>
-                    1. Plagiarized entries will be disqualified.
-                  </Text>
-                  <Text fontSize='xl'>
-                    2. Word limit for both rounds is 400 words, and participants should strictly adhere to it.
-                  </Text>
-                  <Text fontSize='xl'>
-                    3. Every round is an elimination round.
-                  </Text>
-                  <Text fontSize='xl'>
-                    4. Any unfair means will lead to immediate disqualification.
-                  </Text>
-                  <Text fontSize='xl'>
-                    5. The decision of the organizers will be considered final and binding on all participants.
-                  </Text>
-
+                    </Text>
+                    <Text fontSize='xl'>
+                      1. All team members must be from the same organization or institute, but they can be from different academic years.
+                    </Text>
+                    <Text fontSize='xl'>
+                      2. Interdisciplinary teams can participate.
+                    </Text>
+                    <Text fontSize='xl'>
+                      3. Modification of team post registration will not be allowed.
+                    </Text>
+                    <Text fontSize='xl'>
+                      4. All the team members must be present during the final presentation; otherwise, their entry will be disqualified.
+                    </Text>
+                    <Text fontSize='xl'>
+                      5. Any unfair means will lead to immediate disqualification.
+                    </Text>
+                    <Text fontSize='xl'>
+                      6. The decision of the judges will be considered final and binding on all the participants.
+                    </Text>
                   </Stack>
                 </TabPanel>
               </TabPanels>
@@ -159,47 +164,42 @@ const Insight = () => {
                 <GridItem>
                   <Flex
                     minH={"200px"}
-                    border={'2px solid green.300'}
+                    border={'2px solid primaries.100'}
                     alignItems={"center"}
                     justifyContent={"center"}
                     flexDirection={'column'}
                     gap={5}
                   >
                     <Text fontSize={'2xl'} textAlign={"center"} color={textColor}>You have already submitted your entry</Text>
+                  
                   </Flex>
                 </GridItem>
               ) : (
                 <GridItem>
                   <Formik
-                    initialValues={{ topic: "", submission: {} }}
+                    initialValues={{url:""}}
                     onSubmit={handleSubmit}
-                 
                   >
                     {({ handleBlur, handleChange, values, handleSubmit }) => (
                       <form onSubmit={handleSubmit}>
                         <Stack
-                          spacing={10}
+                          spacing={8}
                         >
                           <FormField
-                            label="Topic ( Please copy & paste topic from list of adjacent topic )"
+                            label="url"
                             type='text'
-                            name="topic"
-                            value={values.topic}
+                            name="url"
+                            value={values.url}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            placeholder="Topic"
+                            placeholder="url"
                             bg={"rgba(165, 151, 39, 0.7)"}
             
                           />
-                         <FileInput
-                            accept={'.doc,.docx,.pdf'}
-                            label='Upload Your Abstract ( .doc, .docx or .pdf upto 2 mb )'
-                            name='submission'
-                            onBlur={handleBlur}
-                            bg={"rgba(165, 151, 39, 0.7)"}
+                          
+                          <ButtonWithModal
+                            handleSubmit={() => handleSubmit(values)}
                           />
-                         
-                          <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                         </Stack>
                       </form>
                     )}
@@ -215,4 +215,4 @@ const Insight = () => {
   )
 }
 
-export default privateUserRoute(Insight)
+export default privateUserRoute(Inowave2)
