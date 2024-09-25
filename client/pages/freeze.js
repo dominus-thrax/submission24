@@ -133,8 +133,8 @@ const Freeze = () =>
                 <Tab fontSize={20}>Theme</Tab>
                 <Tab fontSize={20}>Instructions</Tab>
               </TabList>
-              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                <TabPanel>
+              <TabPanels bg={"#2F220D"}>
+                <TabPanel color={textColor}>
                   <Stack spacing={1}>
                     {/* <Text fontSize="2xl" fontWeight={"bold"}>Theme</Text> */}
                     <Text fontSize="xl">
@@ -186,7 +186,7 @@ const Freeze = () =>
                   py={1}
                   color={"white"}
                   _hover={{
-                    bg: "#88B788",
+                    bg: "#2F220D",
                   }}
                   borderRadius={'md'}
                   fontSize={20}
@@ -207,7 +207,7 @@ const Freeze = () =>
                         label='Upload Your Image ( .jpg, .jpeg or .png .pdf upto 10mb )'
                         name="file"
                         onBlur={handleBlur}
-                        bg={"rgba(165, 151, 39, 0.7)"}
+                        bg={"#2F220D"}
                       />
                       <ButtonWithModal
                         handleSubmit={() => handleSubmit(values)}
