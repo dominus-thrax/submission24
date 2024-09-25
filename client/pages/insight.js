@@ -15,17 +15,10 @@ import { ChevronLeftIcon } from '@chakra-ui/icons';
 import FileInput from '../components/FileInput';
 import { uploadFile } from '../action/uploadFile';
 
-const options = [
-  { value: "1. Great things happen out of one’s comfort zone but what if a person is happy and satisfied in his comfort zone?", label: "1. Great things happen out of one’s comfort zone but what if a person is happy and satisfied in his comfort zone?" },
-  { value: "2. Are good morals innate or a result of fear?", label: "2. Are good morals innate or a result of fear?" },
-  { value: "3. Is honest disagreement a good sign of progress?", label: "3. Is honest disagreement a good sign of progress?" },
-  { value: "4. Which is more important: creativity or efficiency?", label: "4. Which is more important: creativity or efficiency?" },
-
-]
 
 
 const Insight = () => {
-  const textColor = useColorModeValue("gray.700", "gray.50")
+  const textColor = useColorModeValue("white", "white")
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
@@ -98,21 +91,18 @@ const Insight = () => {
         <NextLink href='/dashboard'>
           <chakra.h3
             fontWeight={"bold"}
-            fontSize={20}
+            fontSize={24}
             textTransform={"uppercase"}
             color={"#5FAB63"}
             cursor="pointer"
-            display={'flex'}
-            alignItems={'center'}
+            display={"flex"}
+            alignItems={"center"}
           >
             <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
           </chakra.h3>
         </NextLink>
         <chakra.h1
-          py={5}
-          fontSize={48}
-          fontWeight={"bold"}
-          color={textColor}
+         py={5} fontSize={40} fontWeight={"bold"} color={textColor}
         >
           Insight
         </chakra.h1>
@@ -122,44 +112,42 @@ const Insight = () => {
         >
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList>
-                <Tab>
+              <TabList color={textColor}>
+                <Tab fontSize={20}>
                   Topics
                 </Tab>
-                <Tab>Instructions</Tab>
+                <Tab fontSize={20}>Instructions</Tab>
               </TabList>
               <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='2xl'>
+                    <Text fontSize='xl'>
                       Topics
                     </Text>
-                    {
-                      options.map((item) => (
-                        <Text fontSize='lg' key={item.value}>
-                          {item.label}
-                        </Text>
-                      ))
-                    }
+                   
                   </Stack>
                 </TabPanel>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='2xl'>
+                    {/* <Text fontSize='2xl'>
                       Instructions
-                    </Text>
-                    <Text fontSize='lg'>
-                      Round 1: Passage/poem writing: Four topics would be given, out of which participants have to choose one and write a passage, story, poem, or any other suitable form of creative writing.
-                    </Text>
-                    <Text fontSize='lg'>
-                      Round 2: Third&lsquo;s POV: A short story would be given from a person&lsquo;s point of view and the participants will have to write the same story from a third person&lsquo;s point of view.
-                    </Text>
-                    <Text fontSize='lg'>
-                      1. All rounds are elimination rounds and selected participants would be informed by our team.
-                    </Text>
-                    <Text fontSize='lg'>
-                      2. Plagiarized entries will be disqualified.
-                    </Text>
+                    </Text> */}
+                   <Text fontSize='xl'>
+                    1. Plagiarized entries will be disqualified.
+                  </Text>
+                  <Text fontSize='xl'>
+                    2. Word limit for both rounds is 400 words, and participants should strictly adhere to it.
+                  </Text>
+                  <Text fontSize='xl'>
+                    3. Every round is an elimination round.
+                  </Text>
+                  <Text fontSize='xl'>
+                    4. Any unfair means will lead to immediate disqualification.
+                  </Text>
+                  <Text fontSize='xl'>
+                    5. The decision of the organizers will be considered final and binding on all participants.
+                  </Text>
+
                   </Stack>
                 </TabPanel>
               </TabPanels>

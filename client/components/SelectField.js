@@ -6,14 +6,14 @@ const SelectField = ({ name, placeholder, label, options, ...otherProps }) => {
     const { errors, touched } = useFormikContext();
     return (
         <FormControl id={name}>
-            <FormLabel fontWeight={"semibold"}>{label}</FormLabel>
+            <FormLabel fontSize={20} color="white">{label}</FormLabel>
             <Select
                 placeholder={placeholder}
                 name={name}
                 w={'100%'}
                 {...otherProps}
-                color={"white"}
-                
+                color={"white"}  
+                _hover={{ bg: "#746A1B", color:"black" }}
             >
                 {
                     options.map((item) => (

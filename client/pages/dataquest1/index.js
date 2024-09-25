@@ -55,7 +55,7 @@ const Dataquest = () => {
             const entryData = await submitEntries({
                 submission_csv: data.submission,
                 submission_python: data_python.submission
-            }, 'dataquest1');
+            }, 'dataquest');
             console.log(entryData);
             if (entryData?.error) {
                 toast.error(entryData?.error);
@@ -75,7 +75,7 @@ const Dataquest = () => {
     useEffect(() => {
         const fetchSubmission = async () => {
             try {
-                const entryData = await getEntries('dataquest1');
+                const entryData = await getEntries('dataquest');
                 if (entryData?.error) {
                     console.log(entryData?.error);
                 }

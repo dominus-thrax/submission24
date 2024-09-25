@@ -26,6 +26,8 @@ const ButtonWithModal = ({handleSubmit}) => {
         justifyItems={"center"}
         type="button"
         onClick={onOpen}
+        fontWeight={"light"}
+        fontSize={20}
       >
         Submit
       </Button>

@@ -112,7 +112,7 @@ const Freeze = () =>
         <NextLink href="/dashboard">
           <chakra.h3
             fontWeight={"bold"}
-            fontSize={20}
+            fontSize={24}
             textTransform={"uppercase"}
             color={"#5FAB63"}
             cursor="pointer"
@@ -122,57 +122,44 @@ const Freeze = () =>
             <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
           </chakra.h3>
         </NextLink>
-        <chakra.h1 py={5} fontSize={48} fontWeight={"bold"} color={textColor}>
+        <chakra.h1 py={5} fontSize={40} fontWeight={"bold"} color={textColor}>
           Freeze the second
         </chakra.h1>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={10}>
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList>
-                <Tab>Theme</Tab>
-                <Tab>Instructions</Tab>
+              <TabList color={textColor}>
+                <Tab fontSize={20}>Theme</Tab>
+                <Tab fontSize={20}>Instructions</Tab>
               </TabList>
               <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
-                  <Stack spacing={3}>
-                    <Text fontSize="2xl">Theme</Text>
-                    <Text fontSize="2xl">
-                      Photographs on any theme will be accepted!
+                  <Stack spacing={1}>
+                    {/* <Text fontSize="2xl" fontWeight={"bold"}>Theme</Text> */}
+                    <Text fontSize="xl">
+                    Freeze the Second is an online photography contest where participants showcase stunning moments through their lens.
                     </Text>
                   </Stack>
                 </TabPanel>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize="2xl">Instructions</Text>
-                    <Text fontSize="lg">
-                      1. The participants will be required to submit their
-                      entries through the submission platform!
-                    </Text>
-                    <Text fontSize="lg">
-                      2.Photos must be in JPEG, JPG, or PNG format only.
-                    </Text>
-                    {/* <Text fontSize="lg">
-                      3. You are required to provide a unique title &
-                      description for each image submitted.
-                    </Text> */}
-                    <Text fontSize={"lg"}>
-                      3. Advanced editing used to create illusions, deceptions
-                      and/or manipulations, and the adding and removing of
-                      significant elements within the frame is prohibited.
-                    </Text>
-                    <Text fontSize={"lg"}>
-                      4. The decision of the organizers and judges will be final
-                      and binding on all participants.
-                    </Text>
-                    <Text fontSize={"lg"}>
-                      5. Only one photograph per person per entry .
-                    </Text>
-                    <Text fontSize={"lg"}>
-                      6. No same photograph for two different entries.
-                    </Text>
-                    <Text fontSize={"lg"}>
-                      7. Photograph taken from net won't be considered.
-                    </Text>
+                    {/* <Text fontSize="2xl">Instructions</Text> */}
+              <Text fontSize="xl">
+               1. Each participant must submit only one photograph.
+              </Text>
+              <Text fontSize="xl">
+               2. Photographs must be taken by the submitting individual. images should not be sourced from the internet or captured by others.
+              </Text>
+              <Text fontSize="xl">
+               3. Participants must upload their photographs to the submission platform within the designated timeslot.
+              </Text>
+              <Text fontSize="xl">
+                4. Any use of unfair means will result in immediate disqualification.
+              </Text>
+              <Text fontSize="xl">
+                5. The organizers decisions are final and binding for all participants.
+              </Text>
+
                   </Stack>
                 </TabPanel>
               </TabPanels>

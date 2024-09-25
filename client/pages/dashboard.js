@@ -76,6 +76,7 @@ const Dashboard = () => {
                 event={event?.event_name}
                 page={event?.event_route}
                 key={event?.event_id}
+                status={event.event_status}
               />
               
             );

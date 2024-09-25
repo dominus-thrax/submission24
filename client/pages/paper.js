@@ -19,7 +19,7 @@ const options = [
 ]
 
 const PaperPresentation = () => {
-  const textColor = useColorModeValue("gray.700", "gray.50");
+  const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
@@ -107,22 +107,19 @@ const PaperPresentation = () => {
       >
         <NextLink href='/dashboard'>
           <chakra.h3
-            fontWeight={"bold"}
-            fontSize={20}
-            textTransform={"uppercase"}
-            color={"#5FAB63"}
-            cursor="pointer"
-            display={'flex'}
-            alignItems={'center'}
+           fontWeight={"bold"}
+           fontSize={24}
+           textTransform={"uppercase"}
+           color={"#5FAB63"}
+           cursor="pointer"
+           display={"flex"}
+           alignItems={"center"}
           >
             <ChevronLeftIcon w={6} h={6} /> <span>Back to all events</span>
           </chakra.h3>
         </NextLink>
         <chakra.h1
-          py={5}
-          fontSize={48}
-          fontWeight={"bold"}
-          color={textColor}
+          py={5} fontSize={40} fontWeight={"bold"} color={textColor}
         >
           Paper Presentation
         </chakra.h1>
@@ -132,12 +129,12 @@ const PaperPresentation = () => {
         >
           <GridItem>
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList>
-                <Tab>
+              <TabList color={textColor}>
+                <Tab fontSize={20}>
                   Idea Submission
                 </Tab>
-                <Tab>Paper Submission</Tab>
-                <Tab>Round 2</Tab>
+                <Tab fontSize={20}>Paper Submission</Tab>
+                <Tab fontSize={20}>Round 2</Tab>
               </TabList>
               <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
@@ -173,14 +170,26 @@ const PaperPresentation = () => {
                   <Text fontSize='2xl'>
                     Round 2
                   </Text>
-                  <Text fontSize='lg'>
-                    1. Shortlisted candidates from both tracks will give a presentation on their topic followed by a question-and-answer session on April 23rd, 2022, on the PICT campus.
+                  <Text fontSize='xl'>
+                    1. Papers/Ideas must fall under one of the following domains – Blockchain, AI & ML.
                   </Text>
-                  <Text fontSize='lg'>
-                    2. The presentation should be in .ppt or .pptx format.
+                  <Text fontSize='xl'>
+                    2. Ensure that your submission is a fully developed research paper, not merely an idea or abstract for the paper presentation.
                   </Text>
-                  <Text fontSize='lg'>
-                    3. The shortlisted candidates will receive additional information through email.
+                  <Text fontSize='xl'>
+                    3. For idea presentation, it must be a document that includes the idea, abstract, details, approach, and advantages. Anything else is a bonus.
+                  </Text>
+                  <Text fontSize='xl'>
+                    4. The paper must be the original work of the participant; any plagiarized content will result in immediate disqualification.
+                  </Text>
+                  <Text fontSize='xl'>
+                    5. All the rounds are elimination rounds.
+                  </Text>
+                  <Text fontSize='xl'>
+                    6 .Participants must submit their papers or ideas in PDF format.
+                  </Text>
+                  <Text fontSize='xl'>
+                    7 .The decision of the judges will be final and binding.
                   </Text>
                 </TabPanel>
               </TabPanels>
@@ -250,6 +259,7 @@ const PaperPresentation = () => {
                             options={options}
                             onChange={handleChange}
                             onBlur={handleBlur}
+
                           />
                           <FileInput
                             accept={'.doc,.docx,.pdf'}
@@ -264,6 +274,7 @@ const PaperPresentation = () => {
                               label='Upload Your Paper ( .doc, .docx or .pdf upto 2 mb )'
                               name='file_paper'
                               onBlur={handleBlur}
+                              bg={"rgba(165, 151, 39, 0.7)"}
                             />
                           }
                           <ButtonWithModal

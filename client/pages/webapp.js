@@ -13,7 +13,7 @@ import ContentLoader from '../components/ContentLoader';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 
 const Webapp = () => {
-  const textColor = useColorModeValue("gray.700", "gray.50");
+  const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
@@ -79,22 +79,19 @@ const Webapp = () => {
       >
         <NextLink href='/dashboard'>
           <chakra.h3
-            fontWeight={"bold"}
-            fontSize={20}
-            textTransform={"uppercase"}
-            color={"#5FAB63"}
-            cursor="pointer"
-            display={'flex'}
-            alignItems={'center'}
+             fontWeight={"bold"}
+             fontSize={24}
+             textTransform={"uppercase"}
+             color={"#5FAB63"}
+             cursor="pointer"
+             display={"flex"}
+             alignItems={"center"}
           >
             <ChevronLeftIcon w={6} h={6}/> <span>Back to all events</span>
           </chakra.h3>
         </NextLink>
         <chakra.h1
-          py={5}
-          fontSize={48}
-          fontWeight={"bold"}
-          color={textColor}
+         py={5} fontSize={40} fontWeight={"bold"} color={textColor}
         >
           Web N App
         </chakra.h1>
@@ -105,19 +102,19 @@ const Webapp = () => {
           <GridItem
           >
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList>
-                <Tab>
+              <TabList color={textColor}>
+                <Tab fontSize={20}>
                   Topics
                 </Tab>
-                <Tab>Instructions</Tab>
+                <Tab fontSize={20}>Instructions</Tab>
               </TabList>
               <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='3xl'>
+                    {/* <Text fontSize='3xl'>
                       Topics
-                    </Text>
-                    <Text fontSize='xl'>
+                    </Text> */}
+                    {/* <Text fontSize='xl'>
                       - Application for an NGO to display its work + accept donations
                     </Text>
                     <Text fontSize='xl'>
@@ -131,29 +128,36 @@ const Webapp = () => {
                     </Text>
                     <Text fontSize='xl'>
                       - Smart hiring platform for recruiters
-                    </Text>
+                    </Text> */}
                   </Stack>
                 </TabPanel>
                 <TabPanel>
                   <Stack spacing={3}>
-                    <Text fontSize='3xl'>
+                    {/* <Text fontSize='3xl'>
                       Instructions
+                    </Text> */}
+                    <Text fontSize='xl'>
+                      1. Each team can submit an entry for only one problem statement.
                     </Text>
                     <Text fontSize='xl'>
-                      1. Topics are out, the idea submission deadline is 18th April 2021 (11:59 pm)
+                      2. Participants are expected to submit a PPT of the proposed solution and idea on the submission platform for round 1. Adding the link of the Figma prototype or GitHub repository in the PPT is optional but preferred.
                     </Text>
                     <Text fontSize='xl'>
-                      2. Participants will have to choose only a topic (listed above in &lsquo;Rounds&lsquo;) and make a presentation on their idea.
+                      3. Use of web frameworks and any suitable tech stack is allowed, but the use of ready-made templates is prohibited.
                     </Text>
                     <Text fontSize='xl'>
-                      3. Include a maximum of 6 slides in the PPT.
+                      4. The decision of the organizers and judges will be final and binding on all participants.
                     </Text>
                     <Text fontSize='xl'>
-                      4. Shortlisted participants from round 1 will enter round 2, where you will have to make a website or an app based on the idea you submitted.
+                      Team Distribution:
                     </Text>
                     <Text fontSize='xl'>
-                      5. Participants should rename their entry as FirstName_LastName.extension
+                      1. FE-SE: Groups of a maximum of 3 participants.
                     </Text>
+                    <Text fontSize='xl'>
+                      2. TE-BE: Groups of a maximum of 4 participants.
+                    </Text>
+
                   </Stack>
                 </TabPanel>
               </TabPanels>

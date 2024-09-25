@@ -19,7 +19,7 @@ const options = [
   { value: "link", label: "link" },
 ]
 const Inowave = () => {
-  const textColor = useColorModeValue("gray.700", "gray.50");
+  const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
@@ -125,21 +125,18 @@ const Inowave = () => {
         <NextLink href='/dashboard'>
           <chakra.h3
             fontWeight={"bold"}
-            fontSize={20}
+            fontSize={24}
             textTransform={"uppercase"}
             color={"#5FAB63"}
             cursor="pointer"
-            display={'flex'}
-            alignItems={'center'}
+            display={"flex"}
+            alignItems={"center"}
           >
             <ChevronLeftIcon w={6} h={6}/> <span>Back to all events</span>
           </chakra.h3>
         </NextLink>
         <chakra.h1
-          py={5}
-          fontSize={48}
-          fontWeight={"bold"}
-          color={textColor}
+          py={5} fontSize={40} fontWeight={"bold"} color={textColor}
         >
           Inowave
         </chakra.h1>
@@ -150,11 +147,11 @@ const Inowave = () => {
           <GridItem
           >
             <Tabs onChange={(index) => setTabIndex(index)}>
-              <TabList>
-                <Tab>
+              <TabList color={"white"}>
+                <Tab fontSize={20}>
                   Topics
                 </Tab>
-                <Tab>Instructions</Tab>
+                <Tab fontSize={20}>Instructions</Tab>
               </TabList>
               <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
                 <TabPanel>
@@ -185,19 +182,22 @@ const Inowave = () => {
                       Instructions
                     </Text>
                     <Text fontSize='xl'>
-                      1. Topics are out, the idea submission deadline is 18th April 2021 (11:59 pm)
+                      1. All team members must be from the same organization or institute, but they can be from different academic years.
                     </Text>
                     <Text fontSize='xl'>
-                      2. Participants will have to choose only a topic (listed above in &lsquo;Rounds&lsquo;) and make a presentation on their idea.
+                      2. Interdisciplinary teams can participate.
                     </Text>
                     <Text fontSize='xl'>
-                      3. Include a maximum of 6 slides in the PPT.
+                      3. Modification of team post registration will not be allowed.
                     </Text>
                     <Text fontSize='xl'>
-                      4. Shortlisted participants from round 1 will enter round 2, where you will have to make a website or an app based on the idea you submitted.
+                      4. All the team members must be present during the final presentation; otherwise, their entry will be disqualified.
                     </Text>
                     <Text fontSize='xl'>
-                      5. Participants should rename their entry as FirstName_LastName.extension
+                      5. Any unfair means will lead to immediate disqualification.
+                    </Text>
+                    <Text fontSize='xl'>
+                      6. The decision of the judges will be considered final and binding on all the participants.
                     </Text>
                   </Stack>
                 </TabPanel>
@@ -260,6 +260,7 @@ const Inowave = () => {
                               label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
                               name='ppt'
                               onBlur={handleBlur}
+                              bg={"rgba(165, 151, 39, 0.7)"}
                             />
                           }
                           {

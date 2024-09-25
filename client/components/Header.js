@@ -48,13 +48,13 @@ const Header = () => {
     </Link>
     <Flex
       position="absolute" // Position the logout button container absolutely
-      right="4px"
+      right="8px"
       top={40} // Align it to the right end
       alignItems={"center"}
       gap={"15px"}
       pr={4} // Add some padding to the right if needed
     >
-      {user?.id && <Button onClick={handleLogout} fontSize={20}>Log Out</Button>}
+      {user?.id && <Button onClick={handleLogout} fontSize={20} fontWeight={"light"} p={5}>LogOut</Button>}
     </Flex>
   </Flex>
   

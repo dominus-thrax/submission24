@@ -15,7 +15,7 @@ const FileInput = ({ label, name, accept, ...otherProps }) => {
     <Box
     >
       <FormControl id={name}>
-        <FormLabel fontWeight={"semibold"} fontSize={"20px"} color={"white"}>{label}</FormLabel>
+        <FormLabel  fontSize={"20px"} color={"white"}>{label}</FormLabel>
         <Input
           type={'file'}
           name={name}
