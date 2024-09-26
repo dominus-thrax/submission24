@@ -26,15 +26,17 @@ import NextLink from "next/link";
 import FileInput from "../components/FileInput";
 import { uploadFile } from "../action/uploadFile";
 import ButtonWithModal from "../components/ButtonWithModal";
-import { getEntries, submitEntries } from "../action/entries";
+import { getEntries, submitEntries,getStatus } from "../action/entries";
 import ContentLoader from "../components/ContentLoader";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { useRouter } from 'next/router'
 
 const Freeze = () =>
 {
   const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState();
   const [loading, setLoading] = useState(true);
+  const router=useRouter();
   const handleSubmit = async (values) =>
   {
     //console.log(values);
@@ -79,6 +81,22 @@ const Freeze = () =>
   useEffect(() =>
   {
     
+    const fetchStatus=async()=>
+      {
+          try
+          {
+              const res=await getStatus("freeze");
+              //console.log(res.status);
+              if(res.status!==true)
+              {
+                 router.push('/dashboard');
+              }
+          }catch(err)
+          {
+            console.log(err);
+          }
+      }
+      fetchStatus();
     const fetchSubmission = async () =>
     {
       try

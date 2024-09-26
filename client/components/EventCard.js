@@ -6,10 +6,7 @@ import { toast } from "react-toastify";
 import { useContext } from "react";
 import AppContext from "../context/AppContext";
 
-const logo={
-  "Insight":"/insight.png",
 
-}
 
 const EventCard = ({ event, page ,status,logo}) => {
  // console.log("eventcard ",event,status)

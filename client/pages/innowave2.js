@@ -13,12 +13,13 @@ import ContentLoader from '../components/ContentLoader';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import SelectField from '../components/SelectField';
 import FormField from '../components/FormField';
-
+import { useRouter } from 'next/router'
 
 const Inowave2 = () => {
   const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
+  const router=useRouter();
   const handleSubmit = async (values) => {
    
    
@@ -49,6 +50,22 @@ const Inowave2 = () => {
    
     
   useEffect(() => {
+    const fetchStatus=async()=>
+      {
+          try
+          {
+              const res=await getStatus("innowave2");
+              //console.log(res.status);
+              if(res.status!==true)
+              {
+                 router.push('/dashboard');
+              }
+          }catch(err)
+          {
+            console.log(err);
+          }
+      }
+      fetchStatus();
     const fetchSubmission = async () => {
       try {
         const entryData = await getEntries('innowave2');

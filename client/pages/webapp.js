@@ -8,14 +8,15 @@ import FileInput from '../components/FileInput';
 import NextLink from 'next/link';
 import { uploadFile } from '../action/uploadFile';
 import ButtonWithModal from '../components/ButtonWithModal';
-import { getEntries, submitEntries } from '../action/entries';
+import { getEntries, submitEntries ,getStatus} from '../action/entries';
 import ContentLoader from '../components/ContentLoader';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-
+import { useRouter } from 'next/router'
 const Webapp = () => {
   const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
+  const router=useRouter();
   const handleSubmit = async (values) => {
     //console.log(values);
     if (!values?.file?.name) {
@@ -50,6 +51,22 @@ const Webapp = () => {
     setLoading(false);
   }
   useEffect(() => {
+    const fetchStatus=async()=>
+      {
+          try
+          {
+              const res=await getStatus("webapp");
+              //console.log(res.status);
+              if(res.status!==true)
+              {
+                 router.push('/dashboard');
+              }
+          }catch(err)
+          {
+            console.log(err);
+          }
+      }
+      fetchStatus();
     const fetchSubmission = async () => {
       try {
         const entryData = await getEntries('webapp');

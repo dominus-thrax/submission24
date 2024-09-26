@@ -17,11 +17,12 @@ const options = [
   { value: "Idea Presentation Track", label: "Idea Presentation Track" },
   { value: "Paper Presentation Track", label: "Paper Presentation Track" },
 ]
-
+import { useRouter } from 'next/router'
 const PaperPresentation = () => {
   const textColor = useColorModeValue("white", "white");
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
+  const router=useRouter();
   const handleSubmit = async (values) => {
     //console.log(values);
     if (!values?.file?.name) {
@@ -78,6 +79,22 @@ const PaperPresentation = () => {
     setLoading(false);
   }
   useEffect(() => {
+    const fetchStatus=async()=>
+      {
+          try
+          {
+              const res=await getStatus("paper");
+              //console.log(res.status);
+              if(res.status!==true)
+              {
+                 router.push('/dashboard');
+              }
+          }catch(err)
+          {
+            console.log(err);
+          }
+      }
+      fetchStatus();
     const fetchSubmission = async () => {
       try {
         const entryData = await getEntries('paper');

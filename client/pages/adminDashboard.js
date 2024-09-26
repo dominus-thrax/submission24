@@ -292,7 +292,8 @@ const AdminPage = () => {
         borderWidth="1px"
         borderRadius="lg"
         boxShadow="lg"
-        bg="white"
+        bg="black"
+        color="white"
       >
         <Flex gap={6}>
         <Button onClick={()=>handleLogout()}>Logout</Button>
@@ -313,7 +314,7 @@ const AdminPage = () => {
         <Divider mb={6} />
         
         <VStack spacing={8} align="stretch">
-          <Table variant="striped" colorScheme="teal">
+          <Table>
             <Thead>
               <Tr>
                 <Th>Event Name</Th>
@@ -336,10 +337,10 @@ const AdminPage = () => {
                   </Td>
                   <Td>
                     <Input
-                      placeholder="Enter route (e.g., /web-n-app)"
+                     
                       value={event.route}
                       onChange={(e) => handleRouteChange(event.id, e.target.value)}
-                      bg="white"
+                      color="white"
                       borderColor="teal.400"
                       focusBorderColor="teal.600"
                     />
@@ -368,7 +369,8 @@ const AdminPage = () => {
         borderWidth="1px"
         borderRadius="lg"
         boxShadow="lg"
-        bg="white"
+        bg="black"
+        color="white"
       >
         <Text fontSize="3xl" mb={6} fontWeight="bold" textAlign="center" color="teal.600">
           Update Events
@@ -376,7 +378,7 @@ const AdminPage = () => {
         <Divider mb={6} />
 
         <VStack spacing={8} align="stretch">
-          <Table variant="striped" colorScheme="teal">
+          <Table >
             <Thead>
               <Tr>
                 <Th>Event Name</Th>
@@ -402,7 +404,7 @@ const AdminPage = () => {
                       placeholder="Enter route (e.g., /web-n-app)"
                       value={event.route}
                       onChange={(e) => handleSubmissionRouteChange(event.id, e.target.value)}
-                      bg="white"
+                      color="white"
                       borderColor="teal.400"
                       focusBorderColor="teal.600"
                     />
