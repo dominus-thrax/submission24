@@ -33,7 +33,7 @@ export const userLogin = async (
     getRegisteredEvents(dispatchEvents);
     return res.data[type];
   } catch (e) {
-    console.log(e);
+    //console.log(e);
     if (e?.response) {
       return e?.response?.data;
     }
@@ -56,7 +56,7 @@ export const loadUser = async (dispatchUser, dispatchEvents) => {
     };
     try {
       const res = await axios(options);
-     console.log("res:",res);
+    // console.log("res:",res);
       dispatchUser({
         type: "SET_USER",
         user: {
@@ -70,7 +70,7 @@ export const loadUser = async (dispatchUser, dispatchEvents) => {
         type: submission.type,
       };
     } catch (e) {
-      console.log(e);
+     // console.log(e);
       if (e?.response?.data) {
         return e.response.data;
       }
@@ -97,7 +97,7 @@ export const logout = async (
     };
     try {
       const res = await axios(options);
-      console.log("logout res:",res);
+      //console.log("logout res:",res);
       localStorage.removeItem("submission");
       dispatchUser({
         type: "RESET_USER",
@@ -107,7 +107,7 @@ export const logout = async (
       })
       return res.data;
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       if (e?.response?.data) {
         return e.response.data;
       }

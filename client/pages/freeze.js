@@ -37,13 +37,13 @@ const Freeze = () =>
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) =>
   {
-    console.log(values);
+    //console.log(values);
     if (!values?.file?.name)
     {
       toast.error("Please Select a file");
       return;
     }
-    console.log(values.file.size);
+    //console.log(values.file.size);
     if (values.file.size > 10000000)
     {
       toast.error("File Size Exceeded");
@@ -60,7 +60,7 @@ const Freeze = () =>
         return;
       }
       const entryData = await submitEntries(data, "freeze");
-      console.log("freeze:",entryData);
+      //console.log("freeze:",entryData);
       if (entryData?.error)
       {
         toast.error(entryData?.error);
@@ -71,13 +71,14 @@ const Freeze = () =>
       toast.success("Entry Submitted Successfully");
     } catch (e)
     {
-      console.log(e);
+      //console.log(e);
       toast.error("Someting Went Wrong");
     }
     setLoading(false);
   };
   useEffect(() =>
   {
+    
     const fetchSubmission = async () =>
     {
       try
@@ -142,7 +143,7 @@ const Freeze = () =>
                     </Text>
                   </Stack>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
                     {/* <Text fontSize="2xl">Instructions</Text> */}
               <Text fontSize="xl">

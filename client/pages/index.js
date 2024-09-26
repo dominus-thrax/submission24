@@ -30,7 +30,7 @@ function Loginpage() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (values) => {
-    console.log(values);
+    //console.log(values);
     try {
       setLoading(true);
       const data = await userLogin(values, 'user', dispatchUser, dispatchEvents);

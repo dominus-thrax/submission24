@@ -23,7 +23,7 @@ const PaperPresentation = () => {
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
-    console.log(values);
+    //console.log(values);
     if (!values?.file?.name) {
       toast.error('Please Select a file')
       return;
@@ -134,41 +134,33 @@ const PaperPresentation = () => {
                   Idea Submission
                 </Tab>
                 <Tab fontSize={20}>Paper Submission</Tab>
-                <Tab fontSize={20}>Round 2</Tab>
+                <Tab fontSize={20}>Rules</Tab>
               </TabList>
-              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                <TabPanel>
+              <TabPanels bg={"#2F220D"}>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
                     <Text fontSize='2xl'>
                       Idea Submission Track
                     </Text>
                     <Text fontSize='lg'>
-                      1. An abstract or synopsis (maximum 500 words) of the research idea needs to be submitted in PDF format.
+                    This track is for those who wish to pitch a research idea or demonstrate their understanding of a topic.
                     </Text>
-                    <Text fontSize='lg'>
-                      2. For abstract submission, click <Link href='https://docs.google.com/document/d/1RawQNTuj6A72vVJIE2zS7SuhaUIbde8Z/edit?usp=sharing&ouid=114207401037452959347&rtpof=true&sd=true' target={"_blank"} color={"blue.500"}>here</Link> to view the template
-                    </Text>
+                   
                   </Stack>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
                     <Text fontSize='2xl'>
                       Paper Presentation Track
                     </Text>
                     <Text fontSize='lg'>
-                      1. A PDF file of the paper and abstract should be submitted.
-                    </Text>
-                    <Text fontSize='lg'>
-                      2. For abstract submission, click <Link href='https://docs.google.com/document/d/1RawQNTuj6A72vVJIE2zS7SuhaUIbde8Z/edit?usp=sharing&ouid=114207401037452959347&rtpof=true&sd=true' target={"_blank"} color={"blue.500"}>here</Link> to view the template
-                    </Text>
-                    <Text fontSize='lg'>
-                      3. For paper submission, the ACM - SIG Proceedings Template is preferable, but not required.
+                    This track is for those who have done concrete research and wish to present their research findings before the judges.
                     </Text>
                   </Stack>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel color={textColor}>
                   <Text fontSize='2xl'>
-                    Round 2
+                    Rules
                   </Text>
                   <Text fontSize='xl'>
                     1. Papers/Ideas must fall under one of the following domains – Blockchain, AI & ML.
@@ -268,7 +260,7 @@ const PaperPresentation = () => {
                             label='Upload Your Abstract ( .doc, .docx or .pdf upto 2 mb )'
                             name='file'
                             onBlur={handleBlur}
-                            bg={"rgba(165, 151, 39, 0.7)"}
+                            bg={"#2F220D"}
                           />
                           {
                             values.type === 'Paper Presentation Track' && <FileInput
@@ -276,7 +268,7 @@ const PaperPresentation = () => {
                               label='Upload Your Paper ( .doc, .docx or .pdf upto 2 mb )'
                               name='file_paper'
                               onBlur={handleBlur}
-                              bg={"rgba(165, 151, 39, 0.7)"}
+                              bg={"#2F220D"}
                             />
                           }
                           <ButtonWithModal

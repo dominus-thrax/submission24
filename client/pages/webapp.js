@@ -17,12 +17,12 @@ const Webapp = () => {
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
-    console.log(values);
+    //console.log(values);
     if (!values?.file?.name) {
       toast.error('Please Select a file')
       return;
     }
-    console.log(values.file.size)
+    //console.log(values.file.size)
     if (values.file.size > 5000000) {
       toast.error('File Size Exceeded');
       return;
@@ -108,30 +108,18 @@ const Webapp = () => {
                 </Tab>
                 <Tab fontSize={20}>Instructions</Tab>
               </TabList>
-              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                <TabPanel>
+              <TabPanels bg={"#2F220D"}>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
-                    {/* <Text fontSize='3xl'>
-                      Topics
-                    </Text> */}
-                    {/* <Text fontSize='xl'>
-                      - Application for an NGO to display its work + accept donations
-                    </Text>
                     <Text fontSize='xl'>
-                      - Travelogue Application
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Application for Health and Fitness
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Website/App for selling sports goods
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Smart hiring platform for recruiters
-                    </Text> */}
+                       Problem Statement <Link color="blue.400" href="https://drive.google.com/file/d/17-Dik95hKYFmPLq_c4k3vmIalf730m3O/view">Click here to view</Link>
+                    </Text> 
+                      <Text fontSize="xl">
+                          PPT Template <Link color="blue.400" href="https://docs.google.com/presentation/d/1QFPxKNzQJ2wadGIoqBpN_2fEKvz_BC6ewyBrxS9MY8k/edit#slide=id.p1">Click here to view</Link>
+                      </Text>
                   </Stack>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
                     {/* <Text fontSize='3xl'>
                       Instructions
@@ -208,7 +196,7 @@ const Webapp = () => {
                             label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
                             name='file'
                             onBlur={handleBlur}
-                           bg={"rgba(165, 151, 39, 0.7)"}
+                           bg={"#2F220D"}
                           />
                           <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                         </Stack>

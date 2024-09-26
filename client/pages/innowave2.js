@@ -107,30 +107,16 @@ const Inowave2 = () => {
                 </Tab>
                 <Tab fontSize={20}>Instructions</Tab>
               </TabList>
-              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                <TabPanel>
+              <TabPanels bg={"#2F220D"}>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
-                    <Text fontSize='3xl'>
-                      Topics
+                  <Text fontSize='xl'>
+                       Themes <Link color={"blue.400"} href="https://drive.google.com/file/d/15RX1rIMiQUCiqmHLaMxS7niPei1sdNBc/view">Click here to view</Link>
                     </Text>
-                    <Text fontSize='xl'>
-                      - Application for an NGO to display its work + accept donations
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Travelogue Application
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Application for Health and Fitness
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Website/App for selling sports goods
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Smart hiring platform for recruiters
-                    </Text>
+                    
                   </Stack>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
                     <Text fontSize='3xl'>
                       Instructions
@@ -193,7 +179,7 @@ const Inowave2 = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             placeholder="url"
-                            bg={"rgba(165, 151, 39, 0.7)"}
+                            bg={"#2F220D"}
             
                           />
                           

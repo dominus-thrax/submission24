@@ -55,7 +55,7 @@ const result = () => {
   const handleSubmit = async (event) => {
     try {
       const res = await getResults(event.route);  // Fetch results
-      console.log(res);
+      //console.log(res);
       const csvData = convertToCSV(res);          // Convert to CSV format
       downloadCSV(csvData, `${event.name}.csv`);  // Trigger CSV download
     } catch (err) {

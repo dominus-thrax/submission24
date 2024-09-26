@@ -22,12 +22,12 @@ const Insight = () => {
   const [submission, setSubmission] = useState()
   const [loading, setLoading] = useState(true);
   const handleSubmit = async (values) => {
-    console.log(values)
+    //console.log(values)
     if (!values?.submission?.name) {
       toast.error('Please Select a file')
       return;
     }
-    console.log(values.submission.size)
+   // console.log(values.submission.size)
     if (values.submission.size > 5000000) {
       toast.error('File Size Exceeded');
       return;
@@ -35,7 +35,7 @@ const Insight = () => {
     try {
       setLoading(true);
       const data = await uploadFile(values.submission)
-      console.log("insight:",data);
+     // console.log("insight:",data);
       if (data?.error) {
         toast.error('Someting Went Wrong')
         setLoading(false);
@@ -50,7 +50,7 @@ const Insight = () => {
         setLoading(false);
         return;
       }
-      console.log("entrydata insight:",entryData.submission)
+      //console.log("entrydata insight:",entryData.submission)
       setSubmission(entryData?.submission);
       
       toast.success('Entry Submitted Successfully');
@@ -114,20 +114,31 @@ const Insight = () => {
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={textColor}>
                 <Tab fontSize={20}>
-                  Topics
+                  Rounds
                 </Tab>
                 <Tab fontSize={20}>Instructions</Tab>
               </TabList>
-              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                <TabPanel>
+              <TabPanels bg={"#2F220D"}>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
-                    <Text fontSize='xl'>
-                      Topics
-                    </Text>
+                  <Text fontSize='xl' textDecoration="underline">
+                      Round 1
+                  </Text>
+                  <Text fontSize='lg'>
+                      Participants write a letter to someone from the past or future (e.g., someone you know, a celebrity, any fictional character, or a person who influenced history), demonstrating their imagination and writing skills. It has to be submitted online within the given time slot.
+                  </Text>
+
+                  <Text fontSize='xl' textDecoration="underline">
+                      Round 2
+                  </Text>
+                  <Text fontSize='lg'>
+                      The 2nd round will feature "What if..." scenarios, challenging participants to creatively explore hypothetical situations.
+                  </Text>
+
                    
                   </Stack>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
                     {/* <Text fontSize='2xl'>
                       Instructions
@@ -188,7 +199,7 @@ const Insight = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             placeholder="Topic"
-                            bg={"rgba(165, 151, 39, 0.7)"}
+                            bg={"#2F220D"}
             
                           />
                          <FileInput
@@ -196,7 +207,7 @@ const Insight = () => {
                             label='Upload Your Abstract ( .doc, .docx or .pdf upto 2 mb )'
                             name='submission'
                             onBlur={handleBlur}
-                            bg={"rgba(165, 151, 39, 0.7)"}
+                            bg={"#2F220D"}
                           />
                          
                           <ButtonWithModal handleSubmit={() => handleSubmit(values)} />

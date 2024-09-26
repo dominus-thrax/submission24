@@ -33,7 +33,7 @@ const Inowave1 = () => {
         try {
           setLoading(true);
           const data = await uploadFile(values.ppt)
-          console.log(data);
+          //console.log(data);
           if (data?.error) {
             toast.error('Someting Went Wrong')
             setLoading(false);
@@ -112,34 +112,20 @@ const Inowave1 = () => {
             <Tabs onChange={(index) => setTabIndex(index)}>
               <TabList color={"white"}>
                 <Tab fontSize={20}>
-                  Topics
+                  Themes
                 </Tab>
                 <Tab fontSize={20}>Instructions</Tab>
               </TabList>
-              <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                <TabPanel>
+              <TabPanels bg={"#2F220D"}>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
-                    <Text fontSize='3xl'>
-                      Topics
-                    </Text>
                     <Text fontSize='xl'>
-                      - Application for an NGO to display its work + accept donations
+                       Themes <Link color={"blue.400"} href="https://drive.google.com/file/d/15RX1rIMiQUCiqmHLaMxS7niPei1sdNBc/view">Click here to view</Link>
                     </Text>
-                    <Text fontSize='xl'>
-                      - Travelogue Application
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Application for Health and Fitness
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Website/App for selling sports goods
-                    </Text>
-                    <Text fontSize='xl'>
-                      - Smart hiring platform for recruiters
-                    </Text>
+                    
                   </Stack>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel color={textColor}>
                   <Stack spacing={3}>
                     <Text fontSize='3xl'>
                       Instructions
@@ -215,7 +201,7 @@ const Inowave1 = () => {
                               label='Upload Your PPT ( .ppt, .pptx upto 5mb )'
                               name='ppt'
                               onBlur={handleBlur}
-                              bg={"rgba(165, 151, 39, 0.7)"}
+                              bg={"#2F220D"}
                             />
                         
                           <ButtonWithModal

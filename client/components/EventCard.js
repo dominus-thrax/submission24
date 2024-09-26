@@ -11,8 +11,8 @@ const logo={
 
 }
 
-const EventCard = ({ event, page ,status}) => {
-  console.log("eventcard ",event,status)
+const EventCard = ({ event, page ,status,logo}) => {
+ // console.log("eventcard ",event,status)
   
   const { user } = useContext(AppContext);
     const senior = user.year === "TE" || user.year === "BE";
@@ -43,7 +43,7 @@ const EventCard = ({ event, page ,status}) => {
           // border={"0.002px solid #ff4500"}
           >
             {/* <Image src={event.logo} alt="logo" /> */}
-            <Image src={`${page}.png`} alt="logo"/>
+            <Image src={logo} alt="logo"/>
           </Box>
           <chakra.h1 fontWeight={"bold"} fontSize={40} color={"#CFC36D"} overflow={"hidden"} whiteSpace={"nowrap"} textOverflow={"ellipse"}>
             {event}

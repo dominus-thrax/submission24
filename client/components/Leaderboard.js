@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 
 const Leaderboard = ({ submissions, senior }) => {
-    const textColor = useColorModeValue("gray.700", "gray.50");
+    const textColor = useColorModeValue("white", "white");
 
     return (
         <TableContainer

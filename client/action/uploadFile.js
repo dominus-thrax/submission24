@@ -16,7 +16,7 @@ export const uploadFile = async (file) => {
   });
   try {
     const res = await upload.promise();
-    console.log("upload: ",res);
+    //console.log("upload: ",res);
     if (res?.Location) {
       return { submission: res.Location };
     }

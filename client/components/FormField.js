@@ -16,6 +16,7 @@ const FormField = ({ label, name, placeholder, ...otherProps }) => {
         w={"100%"}
         {...otherProps}
         color={"#FFFFFF"}
+        border={"#CFC36D"}
       />
       {errors[name] && touched[name] && <p color="red">{errors[name]}</p>}
     </FormControl>

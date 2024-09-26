@@ -17,7 +17,7 @@ export const submitEntries = async (values, type) => {
             const res = await axios(options);
             return res.data;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             if (e?.response?.data) {
                 return e.response.data;
             }
@@ -43,7 +43,7 @@ export const getEntries = async (type) => {
             const res = await axios(options);
             return res.data;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             if (e?.response?.data) {
                 return e.response.data;
             }
@@ -69,7 +69,7 @@ export const getLeaderboard = async (type) => {
             const res = await axios(options);
             return res.data;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             if (e?.response?.data) {
                 return e.response.data;
             }
@@ -98,7 +98,7 @@ export const getResults = async (type) => {
             //console.log(res.data);
             return res.data;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             if (e?.response?.data) {
                 return e.response.data;
             }
