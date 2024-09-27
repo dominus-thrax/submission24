@@ -8,7 +8,7 @@ import NextLink from 'next/link';
 import FileInput from '../components/FileInput';
 import { uploadFile } from '../action/uploadFile';
 import ButtonWithModal from '../components/ButtonWithModal';
-import { getEntries, submitEntries } from '../action/entries';
+import { getEntries, submitEntries,getStatus } from '../action/entries';
 import ContentLoader from '../components/ContentLoader';
 import SelectField from '../components/SelectField';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
