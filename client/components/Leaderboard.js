@@ -18,7 +18,7 @@ const Leaderboard = ({ submissions, senior }) => {
         <TableContainer
             w={'100%'}>
 
-            <Table variant='simple' color={textColor}>
+            <Table variant='simple' color={textColor} border={"1px"}>
                 {/* <TableCaption>Admin Leaderboard</TableCaption> */}
                 <Thead >
                     <Tr>
@@ -26,16 +26,16 @@ const Leaderboard = ({ submissions, senior }) => {
                         <Th textAlign={'center'}>Email</Th>
                         <Th textAlign={'center'}>First Name</Th>
                         <Th textAlign={'center'}>Last Name</Th>
-                        <Th textAlign={'center'}>{senior ? "Error" :  "Accuracy"}</Th>
+                        <Th textAlign={'center'}>Error</Th>
 
                     </Tr>
                 </Thead>
                 <Tbody>
                     {
                         submissions?.map((submission, index) => {
-                            const acc = senior ? submission.max : submission.min
+                            const acc = submission.min
                             return (
-                                <Tr key={index}>
+                                <Tr key={index} fontSize={20}>
                                     <Td textAlign={'center'}>{index + 1}</Td>
                                     <Td textAlign={'center'}>{submission.email}</Td>
                                     <Td textAlign={'center'}>{submission.first_name}</Td>
@@ -47,16 +47,16 @@ const Leaderboard = ({ submissions, senior }) => {
                     }
                 </Tbody>
 
-                <Tfoot>
+                {/* <Tfoot>
                     <Tr>
                         <Th textAlign={'center'} >Rank</Th>
                         <Th textAlign={'center'}>Email</Th>
                         <Th textAlign={'center'}>First Name</Th>
-                        <Th textAlign={'center'}>Last Name</Th>
+                        <Th textAlign={'center'}>Last Name</Th> */}
                         {/* <Th textAlign={'center'}>Accuracy</Th> */}
-                        <Th textAlign={'center'}>{senior ? "F1 Score" :  "Mean Square Error"}</Th>
+                        {/* <Th textAlign={'center'}>{senior ? "F1 Score" :  "Mean Square Error"}</Th>
                     </Tr>
-                </Tfoot>
+                </Tfoot> */}
             </Table>
         </TableContainer>
     );

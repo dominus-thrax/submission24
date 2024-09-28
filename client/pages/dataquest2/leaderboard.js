@@ -10,7 +10,7 @@ import AppContext from '../../context/AppContext';
 import privateUserRoute from '../../routers/privateUserRoute';
 
 const Leader = () => {
-    const textColor = useColorModeValue("gray.700", "gray.50");
+    const textColor = useColorModeValue("white", "white");
     const [submissions, setSubmissions] = useState([])
     const [loading, setLoading] = useState(true)
     const cardBg = useColorModeValue("white.100", "secondaries.800");
@@ -56,7 +56,7 @@ const Leader = () => {
                     <NextLink href='/dataquest'>
                         <chakra.h3
                             fontWeight={"bold"}
-                            fontSize={20}
+                            fontSize={24}
                             textTransform={"uppercase"}
                             color={"green.400"}
                             cursor="pointer"
@@ -79,7 +79,7 @@ const Leader = () => {
                         color={textColor}
                         pb={'40px'}>Leaderboard {senior ? "( TE-BE )" : "( FE-SE )"}</chakra.h1>
                         {
-                            submissions?.length > 100 ? (
+                            submissions?.length >2 ? (
                         <Leaderboard submissions={submissions} senior={senior} />
                             ) : (
                                 <chakra.h3
@@ -93,7 +93,7 @@ const Leader = () => {
                                     alignItems={'center'}
                                     mb={3}
                                 >
-                                    Leaderboard will be live soon.
+                                    Leaderboard will be live soon...
                                 </chakra.h3>
                             )
                         }

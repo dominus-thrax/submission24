@@ -20,10 +20,12 @@ const Leader = () => {
         const fetchSubmissions = async () => {
             try {
                 const data = await getLeaderboard('dataquest')
+                console.log(data);
                 if (data?.error) {
                     console.log(data.error);
                 }
-                setSubmissions(data?.submissions);
+
+                setSubmissions(data?.submissions?.slice(0,3));
             } catch (e) {
                 console.log(e)
             }
@@ -55,8 +57,8 @@ const Leader = () => {
                 >
                     <NextLink href='/dataquest'>
                         <chakra.h3
-                            fontWeight={"bold"}
-                            fontSize={20}
+                            fontWeight={"semibold"}
+                            fontSize={24}
                             textTransform={"uppercase"}
                             color={"green.400"}
                             cursor="pointer"
@@ -79,7 +81,7 @@ const Leader = () => {
                         color={textColor}
                         pb={'40px'}>Leaderboard {senior ? "( TE-BE )" : "( FE-SE )"}</chakra.h1>
                         {
-                            submissions?.length > 100 ? (
+                            submissions?.length >2 ? (
                         <Leaderboard submissions={submissions} senior={senior} />
                             ) : (
                                 <chakra.h3

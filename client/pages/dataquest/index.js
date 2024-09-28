@@ -8,11 +8,12 @@ import FileInput from '../../components/FileInput';
 import NextLink from 'next/link';
 import { uploadFile } from '../../action/uploadFile';
 import ButtonWithModal from '../../components/ButtonWithModal';
-import { getEntries, submitEntries } from '../../action/entries';
+import { getEntries, getStatus, submitEntries } from '../../action/entries';
 import ContentLoader from '../../components/ContentLoader';
 import { ChevronLeftIcon, DownloadIcon } from '@chakra-ui/icons';
 import { dateString } from '../../utils/dateString';
 import AppContext from '../../context/AppContext';
+import { useRouter } from 'next/router';
 
 const Dataquest = () => {
     const textColor = useColorModeValue("white", "white");
@@ -21,6 +22,7 @@ const Dataquest = () => {
     const cardBg = useColorModeValue("white.100", "secondaries.800");
     const { user } = useContext(AppContext);
     const senior = user.year === 'TE' || user.year === 'BE';
+    const router=useRouter();
     const handleSubmit = async (values) => {
         if (!values?.file_csv?.name) {
             toast.error('Please Select a CSV file')
@@ -73,6 +75,22 @@ const Dataquest = () => {
         setLoading(false);
     }
     useEffect(() => {
+        const fetchStatus=async()=>
+            {
+                try
+                {
+                    const res=await getStatus("dataquest");
+                    //console.log(res.status);
+                    if(res.status!==true)
+                    {
+                       router.push('/dashboard');
+                    }
+                }catch(err)
+                {
+                  console.log(err);
+                }
+            }
+            fetchStatus();
         const fetchSubmission = async () => {
             try {
                 const entryData = await getEntries('dataquest');
@@ -121,7 +139,7 @@ const Dataquest = () => {
                     >
                         DataQuest Round 1 {senior ? "( TE-BE )" : "( FE-SE )"}
                     </chakra.h1>
-                    <NextLink href='/dataquest1/leaderboard'>
+                    <NextLink href='/dataquest/leaderboard'>
                         <chakra.span
                             fontWeight={"bold"}
                             fontSize={20}
@@ -146,24 +164,24 @@ const Dataquest = () => {
                                 <Tab fontSize={20}>Rules</Tab>
                                 <Tab fontSize={20}>My Submissions</Tab>
                             </TabList>
-                            <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                                <TabPanel>
+                            <TabPanels  bg={"#2F220D"}>
+                                <TabPanel color={textColor}>
                                     <Stack spacing={3}>
                                         <Text fontSize='2xl'>
                                             Problem Statement
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            click <Link href={senior ? 'https://drive.google.com/drive/folders/1xFdaJY7xOyAmANreTbqyz_0HTOWYYcBj?usp=sharing' : 'https://drive.google.com/drive/folders/11DW1H4CEcjthJB5LG2pgVK8kgtO1Xbsa'} target={"_blank"} color={"blue.500"}>here</Link> to view the problem statement and dataset.
+                                        <Text fontSize='xl'>
+                                            click <Link href={"https://drive.google.com/drive/folders/1vBvCm-m7MeBiZPoV6Enr4ihvu76-jBVP?usp=sharing"} target={"_blank"} color={"blue.500"}>here</Link> to view the problem statement and dataset.
                                         </Text>
-                                        <Text fontSize='lg'>
+                                        <Text fontSize='xl'>
                                             - Participants are given 3 csv files namely train.csv, test.csv and sample_submission.csv
                                         </Text>
-                                        <Text fontSize='lg'>
+                                        <Text fontSize='xl'>
                                             - Participants have to use train and test files and build a model based on it and by referring to the sample submission they would have to submit a submisssion.csv file and a .ipynb/.py file on our submission platform.
                                         </Text>
                                     </Stack>
                                 </TabPanel>
-                                <TabPanel>
+                                <TabPanel color={textColor}>
                                     <Stack spacing={3}>
                                         <Text fontSize='2xl'>
                                             Rules
@@ -194,7 +212,7 @@ const Dataquest = () => {
                                         </Text>
                                     </Stack>
                                 </TabPanel>
-                                <TabPanel>
+                                <TabPanel color={textColor}>
                                     <Stack spacing={3}>
                                         {
                                             submissions?.map((submission) => {
@@ -205,7 +223,8 @@ const Dataquest = () => {
                                                         alignItems={"center"}
                                                         p={6}
                                                         rounded={"lg"}
-                                                        bg={cardBg}
+                                                        border={"1px"}
+                                                        borderColor={"white"}
                                                         gap={5}
                                                         key={submission?.id?.toString()}
                                                         boxShadow={"md"}
@@ -213,9 +232,10 @@ const Dataquest = () => {
                                                         <Flex
                                                             flexDirection={"column"}
                                                             gap={5}
+                                                            
                                                         >
                                                             <Text fontSize='xl'>{dateString(submission.created_at)}</Text>
-                                                            <Text fontSize='xl'>{senior ? "F1 Score: " : "Mean Square Error : "} {acc.toPrecision(5)}</Text>
+                                                            <Text fontSize='xl'>{ "Mean Square Error : "} {acc.toPrecision(5)}</Text>
                                                         </Flex>
                                                         <Link href={submission.submission_csv}>
                                                             <DownloadIcon fontSize={'xl'} />
@@ -244,9 +264,9 @@ const Dataquest = () => {
                                     >
                                         <Box>
                                             <chakra.h3
-                                                color={textColor}
+                                                color={"green.400"}
                                                 fontSize={'3xl'}
-                                                fontWeight={'bold'}
+                                                
                                             >
                                                 Submit your Entry
                                             </chakra.h3>
@@ -257,14 +277,14 @@ const Dataquest = () => {
                                             label='Upload Your CSV ( .csv upto 5mb )'
                                             name='file_csv'
                                             onBlur={handleBlur}
-                                            bg={"rgba(165, 151, 39, 0.7)"}
+                                            bg={"#2F220D"}
                                         />
                                         <FileInput
                                             accept={'.py,.ipynb'}
                                             label='Upload Your python or notebook file ( .py, .ipynb upto 5mb )'
                                             name='file_python'
                                             onBlur={handleBlur}
-                                            bg={"rgba(165, 151, 39, 0.7)"}
+                                            bg={"#2F220D"}
                                         />
                                         <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                                     </Stack>

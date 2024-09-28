@@ -13,7 +13,7 @@ import ContentLoader from '../../components/ContentLoader';
 import { ChevronLeftIcon, DownloadIcon } from '@chakra-ui/icons';
 import { dateString } from '../../utils/dateString';
 import AppContext from '../../context/AppContext';
-
+import { useRouter } from 'next/router';
 const Dataquest = () => {
     const textColor = useColorModeValue("white", "white");
     const [submissions, setSubmissions] = useState();
@@ -21,6 +21,7 @@ const Dataquest = () => {
     const cardBg = useColorModeValue("white.100", "secondaries.800");
     const { user } = useContext(AppContext);
     const senior = user.year === 'TE' || user.year === 'BE';
+    const router=useRouter();
     const handleSubmit = async (values) => {
         if (!values?.file_csv?.name) {
             toast.error('Please Select a CSV file')
@@ -72,6 +73,11 @@ const Dataquest = () => {
         setLoading(false);
     }
     useEffect(() => {
+        if(!senior)
+        {
+            router.push('/dashboard');
+            toast.error("second round is for TE-BE only");
+        }
         const fetchSubmission = async () => {
             try {
                 const entryData = await getEntries('dataquest2');
@@ -88,7 +94,7 @@ const Dataquest = () => {
     }, [setSubmissions])
     const [tabIndex, setTabIndex] = useState(0)
     return !loading ? (
-       senior===true? 
+     
         <Layout>
             <Box
                 pt={10}
@@ -121,7 +127,7 @@ const Dataquest = () => {
                     >
                         DataQuest Round 2 {senior ? "( TE-BE )" : "( FE-SE )"}
                     </chakra.h1>
-                    <NextLink href='/dataquest/leaderboard'>
+                    <NextLink href='/dataquest2/leaderboard'>
                         <chakra.span
                             fontWeight={"bold"}
                             fontSize={20}
@@ -146,14 +152,14 @@ const Dataquest = () => {
                                 <Tab fontSize={20}>Rules</Tab>
                                 <Tab fontSize={20}>My Submissions</Tab>
                             </TabList>
-                            <TabPanels bg={"rgba(165, 151, 39, 0.7)"}>
-                                <TabPanel>
+                            <TabPanels  bg={"#2F220D"}>
+                                <TabPanel color={textColor}>
                                     <Stack spacing={3}>
                                         <Text fontSize='2xl'>
                                             Problem Statement
                                         </Text>
                                         <Text fontSize='lg'>
-                                            click <Link href={senior ? 'https://drive.google.com/drive/folders/1xFdaJY7xOyAmANreTbqyz_0HTOWYYcBj?usp=sharing' : 'https://drive.google.com/drive/folders/11DW1H4CEcjthJB5LG2pgVK8kgtO1Xbsa'} target={"_blank"} color={"blue.500"}>here</Link> to view the problem statement and dataset.
+                                            click <Link href={"https://drive.google.com/drive/folders/1vBvCm-m7MeBiZPoV6Enr4ihvu76-jBVP"} target={"_blank"} color={"blue.500"}>here</Link> to view the problem statement and dataset.
                                         </Text>
                                         <Text fontSize='lg'>
                                             - Participants are given 3 csv files namely train.csv, test.csv and sample_submission.csv
@@ -163,7 +169,7 @@ const Dataquest = () => {
                                         </Text>
                                     </Stack>
                                 </TabPanel>
-                                <TabPanel>
+                                <TabPanel color={textColor}>
                                     <Stack spacing={3}>
                                         <Text fontSize='2xl'>
                                             Rules
@@ -194,7 +200,7 @@ const Dataquest = () => {
                                         </Text>
                                     </Stack>
                                 </TabPanel>
-                                <TabPanel>
+                                <TabPanel color={textColor}>
                                     <Stack spacing={3}>
                                         {
                                             submissions?.map((submission) => {
@@ -205,7 +211,8 @@ const Dataquest = () => {
                                                         alignItems={"center"}
                                                         p={6}
                                                         rounded={"lg"}
-                                                        bg={cardBg}
+                                                        border={"1px"}
+                                                        borderColor={"white"}
                                                         gap={5}
                                                         key={submission?.id?.toString()}
                                                         boxShadow={"md"}
@@ -244,27 +251,27 @@ const Dataquest = () => {
                                     >
                                         <Box>
                                             <chakra.h3
-                                                color={textColor}
+                                                color={"green.400"}
                                                 fontSize={'3xl'}
-                                                fontWeight={'bold'}
+                                             
                                             >
                                                 Submit your Entry
                                             </chakra.h3>
-                                            <Text fontSize={'lg'}>maximum 3 entries per day</Text>
+                                            <Text fontSize={'lg'} color={textColor}>maximum 3 entries per day</Text>
                                         </Box>
                                         <FileInput
                                             accept={'.csv'}
                                             label='Upload Your CSV ( .csv upto 5mb )'
                                             name='file_csv'
                                             onBlur={handleBlur}
-                                            bg={"rgba(165, 151, 39, 0.7)"}
+                                            bg={"#2F220D"}
                                         />
                                         <FileInput
                                             accept={'.py,.ipynb'}
                                             label='Upload Your python or notebook file ( .py, .ipynb upto 5mb )'
                                             name='file_python'
                                             onBlur={handleBlur}
-                                            bg={"rgba(165, 151, 39, 0.7)"}
+                                            bg={"#2F220D"}
                                         />
                                         <ButtonWithModal handleSubmit={() => handleSubmit(values)} />
                                     </Stack>
@@ -274,9 +281,7 @@ const Dataquest = () => {
                     </GridItem>
                 </SimpleGrid>
             </Box>
-        </Layout>:<Heading>
-            Second round is for TE-BE only
-        </Heading>
+        </Layout>
     ) : (
         <ContentLoader />
     )
