@@ -46,7 +46,7 @@ const Freeze = () =>
       return;
     }
     //console.log(values.file.size);
-    if (values.file.size > 10000000)
+    if (values.file.size > 12000000)
     {
       toast.error("File Size Exceeded");
       return;
