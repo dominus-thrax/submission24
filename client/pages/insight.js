@@ -209,7 +209,7 @@ const Insight = () => {
                           spacing={10}
                         >
                           <FormField
-                            label="Topic ( Please copy & paste topic from list of adjacent topic )"
+                            label="Topic"
                             type='text'
                             name="topic"
                             value={values.topic}
