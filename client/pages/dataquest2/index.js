@@ -8,7 +8,7 @@ import FileInput from '../../components/FileInput';
 import NextLink from 'next/link';
 import { uploadFile } from '../../action/uploadFile';
 import ButtonWithModal from '../../components/ButtonWithModal';
-import { getEntries, submitEntries } from '../../action/entries';
+import { getEntries, getStatus, submitEntries } from '../../action/entries';
 import ContentLoader from '../../components/ContentLoader';
 import { ChevronLeftIcon, DownloadIcon } from '@chakra-ui/icons';
 import { dateString } from '../../utils/dateString';
@@ -78,6 +78,22 @@ const Dataquest = () => {
             router.push('/dashboard');
             toast.error("second round is for TE-BE only");
         }
+        const fetchStatus=async()=>
+            {
+                try
+                {
+                    const res=await getStatus("dataquest2");
+                    //console.log(res.status);
+                    if(res.status!==true)
+                    {
+                       router.push('/dashboard');
+                    }
+                }catch(err)
+                {
+                  console.log(err);
+                }
+            }
+            fetchStatus();
         const fetchSubmission = async () => {
             try {
                 const entryData = await getEntries('dataquest2');
@@ -158,13 +174,13 @@ const Dataquest = () => {
                                         <Text fontSize='2xl'>
                                             Problem Statement
                                         </Text>
-                                        <Text fontSize='lg'>
-                                            click <Link href={"https://drive.google.com/drive/folders/1vBvCm-m7MeBiZPoV6Enr4ihvu76-jBVP"} target={"_blank"} color={"blue.500"}>here</Link> to view the problem statement and dataset.
+                                        <Text fontSize='xl'>
+                                            click <Link href={"https://drive.google.com/drive/folders/1oCs1aIDCapeBVNTmacJoDMaj_b5h0RqB"} target={"_blank"} color={"blue.500"}>here</Link> to view the problem statement and dataset.
                                         </Text>
-                                        <Text fontSize='lg'>
+                                        <Text fontSize='xl'>
                                             - Participants are given 3 csv files namely train.csv, test.csv and sample_submission.csv
                                         </Text>
-                                        <Text fontSize='lg'>
+                                        <Text fontSize='xl'>
                                             - Participants have to use train and test files and build a model based on it and by referring to the sample submission they would have to submit a submisssion.csv file and a .ipynb/.py file on our submission platform.
                                         </Text>
                                     </Stack>

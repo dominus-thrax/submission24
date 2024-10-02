@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import Layout from '../../components/Layout';
 import Leaderboard from '../../components/Leaderboard';
-import { Box, chakra, Flex, useColorModeValue } from '@chakra-ui/react'
+import { Box, chakra, Flex, useColorModeValue } from '@chakra-ui/react';
 import { getLeaderboard } from '../../action/entries';
 import ContentLoader from '../../components/ContentLoader';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
@@ -11,26 +11,32 @@ import privateUserRoute from '../../routers/privateUserRoute';
 
 const Leader = () => {
     const textColor = useColorModeValue("white", "white");
-    const [submissions, setSubmissions] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [submissions, setSubmissions] = useState([]);
+    const [loading, setLoading] = useState(true);
     const cardBg = useColorModeValue("white.100", "secondaries.800");
     const { user } = useContext(AppContext);
     const senior = user.year === 'TE' || user.year === 'BE';
+
     useEffect(() => {
         const fetchSubmissions = async () => {
             try {
-                const data = await getLeaderboard('dataquest2')
+                const data = await getLeaderboard('dataquest2');
+               
                 if (data?.error) {
-                    console.log(data.error);
-                }
-                setSubmissions(data?.submissions);
+                    console.error(data.error);
+                } 
+                    setSubmissions(data?.submissions?.slice(0, 3));
+                
             } catch (e) {
-                console.log(e)
+                console.error('Failed to fetch leaderboard:', e);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
-        }
-        fetchSubmissions()
-    }, [setSubmissions])
+        };
+
+        fetchSubmissions();
+    }, []); // Empty dependency array ensures it only runs once on mount
+
     return !loading ? (
         <Layout>
             <Box
@@ -40,10 +46,9 @@ const Leader = () => {
                     md: '48px',
                     lg: '64px'
                 }}
-                pt="100px"
+               pt="2px"
             >
                 <Flex
-                    // alignItems={'center'}
                     justifyContent={'center'}
                     w='100%'
                     p={'20px'}
@@ -51,11 +56,10 @@ const Leader = () => {
                     rounded={"lg"}
                     bg={cardBg}
                     boxShadow={"md"}
-
                 >
                     <NextLink href='/dataquest'>
                         <chakra.h3
-                            fontWeight={"bold"}
+                            fontWeight={"semibold"}
                             fontSize={24}
                             textTransform={"uppercase"}
                             color={"green.400"}
@@ -71,41 +75,35 @@ const Leader = () => {
                         fontSize={{
                             base: 36,
                             md: 48
-
                         }}
-
-                        // textAlign={'center'}
                         fontWeight={"bold"}
                         color={textColor}
-                        pb={'40px'}>Leaderboard {senior ? "( TE-BE )" : "( FE-SE )"}</chakra.h1>
-                        {
-                            submissions?.length >2 ? (
-                        <Leaderboard submissions={submissions} senior={senior} />
-                            ) : (
-                                <chakra.h3
-                                    fontWeight={"bold"}
-                                    fontSize={32}
-                                    color={textColor}
-                                    w={'100%'}
-                                    cursor="pointer"
-                                    textAlign={'center'}
-                                    display={'flex'}
-                                    alignItems={'center'}
-                                    mb={3}
-                                >
-                                    Leaderboard will be live soon...
-                                </chakra.h3>
-                            )
-                        }
-
-                        
-
+                        pb={'40px'}
+                    >
+                        Leaderboard {senior ? "( TE-BE )" : "( FE-SE )"}
+                    </chakra.h1>
+                    {
+                        submissions.length > 2 ? (
+                            <Leaderboard submissions={submissions} senior={senior} />
+                        ) : (
+                            <chakra.h3
+                                fontWeight={"bold"}
+                                fontSize={32}
+                                color={textColor}
+                                w={'100%'}
+                                textAlign={'center'}
+                                mb={3}
+                            >
+                                Leaderboard will be live soon....
+                            </chakra.h3>
+                        )
+                    }
                 </Flex>
             </Box>
         </Layout>
     ) : (
         <ContentLoader />
-    )
-}
+    );
+};
 
 export default privateUserRoute(Leader);

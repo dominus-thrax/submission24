@@ -26,14 +26,14 @@ const Leaderboard = ({ submissions, senior }) => {
                         <Th textAlign={'center'}>Email</Th>
                         <Th textAlign={'center'}>First Name</Th>
                         <Th textAlign={'center'}>Last Name</Th>
-                        <Th textAlign={'center'}>Error</Th>
+                        <Th textAlign={'center'}>F1 Score</Th>
 
                     </Tr>
                 </Thead>
                 <Tbody>
                     {
                         submissions?.map((submission, index) => {
-                            const acc = submission.min
+                            const acc = submission.max
                             return (
                                 <Tr key={index} fontSize={20}>
                                     <Td textAlign={'center'}>{index + 1}</Td>
