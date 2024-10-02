@@ -143,7 +143,7 @@ const Dataquest = () => {
                     >
                         DataQuest Round 2 {senior ? "( TE-BE )" : "( FE-SE )"}
                     </chakra.h1>
-                    <NextLink href='/dataquest2/leaderboard'>
+                    {/* <NextLink href='/dataquest2/leaderboard'>
                         <chakra.span
                             fontWeight={"bold"}
                             fontSize={20}
@@ -151,9 +151,12 @@ const Dataquest = () => {
                             color={"#5FAB63"}
                             cursor="pointer"
                         >
-                            <span>View Leaderboard</span>
+                            <span>Leaderboard will live soon ....</span>
                         </chakra.span>
-                    </NextLink>
+                    </NextLink> */}
+                    <Box textColor={textColor}>
+                     <span>Leaderboard will live soon ....</span>
+                     </Box>
                 </Box>
                 <SimpleGrid
                     columns={{ base: 1, md: 2 }}
